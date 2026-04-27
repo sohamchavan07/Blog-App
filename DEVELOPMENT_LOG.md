@@ -70,3 +70,14 @@ This document tracks the major steps, features, and fixes implemented during the
     - Implemented text-based search (title/body) and tag-based filtering (using `#tagname`).
     - Optimized queries with `includes(:tags, :user)` to prevent N+1 issues.
 - **UI Enhancements**: Added styling for tag "pills" across the application.
+
+### 3. Media & Assets
+- **Active Storage Integration**: 
+    - Installed and configured Active Storage to handle file uploads.
+    - Added `cover_image` attachment to the `Post` model.
+- **Upload Functionality**: 
+    - Updated post forms with `file_field` to allow image uploads.
+    - Permitted `cover_image` in `PostsController`.
+- **View Updates**: 
+    - Implemented responsive cover image display on both index (listing) and show (detail) pages.
+    - Added CSS for `object-fit: cover` to ensure consistent image aspect ratios.

@@ -17,6 +17,9 @@
 <% if @posts.any? %>
   <% @posts.each do |post| %>
     <div class="card">
+      <% if post.cover_image.attached? %>
+        <%= image_tag post.cover_image, class: "post-cover-image" %>
+      <% end %>
       <%= link_to post.title, post, class: "post-title-link" %>
       <div class="post-meta">
         Posted by <%= post.user.name || post.user.email %> • <%= time_ago_in_words(post.created_at) %> ago
