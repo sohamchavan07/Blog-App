@@ -4,7 +4,7 @@ class PostsController < ApplicationController
 
   def index
     @posts = Post.includes(:user, :tags).order(created_at: :desc)
-    
+
     if params[:query].present?
       query = params[:query]
       if query.start_with?("#")
@@ -55,6 +55,6 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:title, :body, :tag_list, :cover_image)
-  endend
-  
+    params.require(:post).permit(:title, :body, :tag_list)
+  end
+end
