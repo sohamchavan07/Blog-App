@@ -1,0 +1,48 @@
+<article class="card">
+  <h1 class="post-title"><%= @post.title %></h1>
+  <div class="post-meta">
+    By <%= @post.user.name || @post.user.email %> • <%= @post.created_at.strftime("%B %d, %Y") %>
+  </div>
+  
+  <div class="post-body" style="margin-top: 2rem;">
+    <%= @post.body %>
+  </div>
+
+  <% if user_signed_in? && @post.user == current_user %>
+    <div class="actions" style="margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+      <%= link_to "Edit Post", edit_post_path(@post), class: "btn btn-outline" %>
+      <%= button_to "Delete Post", @post, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-outline btn-danger" %>
+    </div>
+  <% end %>
+</article>
+
+<section class="card" style="margin-top: 2rem;">
+  <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem;">Comments (<%= @post.comments.count %>)</h2>
+  
+  <div id="comments">
+    <% @post.comments.each do |comment| %>
+      <div style="padding: 1rem 0; border-bottom: 1px solid var(--border-color);">
+        <div class="post-meta" style="margin-bottom: 0.5rem;">
+          <%= comment.created_at.strftime("%B %d, %Y") %>
+        </div>
+        <div style="color: #334155;">
+          <%= comment.content %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div style="margin-top: 2rem;">
+    <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem;">Add a comment</h3>
+    <%= form_with(model: [@post, @post.comments.build], local: true) do |f| %>
+      <div class="form-group">
+        <%= f.text_area :content, class: "form-control", style: "min-height: 80px;", placeholder: "Write your comment here..." %>
+      </div>
+      <%= f.submit "Post Comment", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</section>
+
+<div style="margin-top: 2rem;">
+  <%= link_to "← Back to Posts", posts_path, class: "btn btn-outline" %>
+</div>
