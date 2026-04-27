@@ -1,0 +1,48 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h2>Create an account</h2>
+      <p>Join our community today</p>
+    </div>
+
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      <div class="form-group">
+        <%= f.label :email, class: "form-label" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", placeholder: "Enter your email" %>
+      </div>
+
+      <div class="form-group" data-controller="password-visibility">
+        <%= f.label :password, class: "form-label" %>
+        <% if @minimum_password_length %>
+          <small class="text-muted" style="display: block; margin-bottom: 0.25rem;">(<%= @minimum_password_length %> characters minimum)</small>
+        <% end %>
+        <div class="password-input-wrapper">
+          <%= f.password_field :password, autocomplete: "new-password", class: "form-control", placeholder: "••••••••", data: { password_visibility_target: "input" } %>
+          <button type="button" class="password-toggle" data-action="click->password-visibility#toggle" data-password-visibility-target="icon">
+            <i data-lucide="eye"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="form-group" data-controller="password-visibility">
+        <%= f.label :password_confirmation, "Confirm Password", class: "form-label" %>
+        <div class="password-input-wrapper">
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control", placeholder: "••••••••", data: { password_visibility_target: "input" } %>
+          <button type="button" class="password-toggle" data-action="click->password-visibility#toggle" data-password-visibility-target="icon">
+            <i data-lucide="eye"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "Sign up", class: "btn btn-primary", style: "width: 100%;" %>
+      </div>
+    <% end %>
+
+    <div class="auth-links">
+      <%= render "devise/shared/links" %>
+    </div>
+  </div>
+</div>

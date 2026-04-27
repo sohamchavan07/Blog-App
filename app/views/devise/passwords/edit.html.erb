@@ -1,0 +1,44 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h2>Change your password</h2>
+      <p>Please enter your new password below</p>
+    </div>
+
+    <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+      <%= f.hidden_field :reset_password_token %>
+
+      <div class="form-group" data-controller="password-visibility">
+        <%= f.label :password, "New password", class: "form-label" %>
+        <% if @minimum_password_length %>
+          <small class="text-muted" style="display: block; margin-bottom: 0.25rem;">(<%= @minimum_password_length %> characters minimum)</small>
+        <% end %>
+        <div class="password-input-wrapper">
+          <%= f.password_field :password, autofocus: true, autocomplete: "new-password", class: "form-control", placeholder: "••••••••", data: { password_visibility_target: "input" } %>
+          <button type="button" class="password-toggle" data-action="click->password-visibility#toggle" data-password-visibility-target="icon">
+            <i data-lucide="eye"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="form-group" data-controller="password-visibility">
+        <%= f.label :password_confirmation, "Confirm new password", class: "form-label" %>
+        <div class="password-input-wrapper">
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control", placeholder: "••••••••", data: { password_visibility_target: "input" } %>
+          <button type="button" class="password-toggle" data-action="click->password-visibility#toggle" data-password-visibility-target="icon">
+            <i data-lucide="eye"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "Change my password", class: "btn btn-primary", style: "width: 100%;" %>
+      </div>
+    <% end %>
+
+    <div class="auth-links">
+      <%= render "devise/shared/links" %>
+    </div>
+  </div>
+</div>

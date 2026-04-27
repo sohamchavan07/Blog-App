@@ -1,0 +1,42 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h2>Welcome back</h2>
+      <p>Please enter your details to sign in</p>
+    </div>
+
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <div class="form-group">
+        <%= f.label :email, class: "form-label" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", placeholder: "Enter your email" %>
+      </div>
+
+      <div class="form-group" data-controller="password-visibility">
+        <%= f.label :password, class: "form-label" %>
+        <div class="password-input-wrapper">
+          <%= f.password_field :password, autocomplete: "current-password", class: "form-control", placeholder: "••••••••", data: { password_visibility_target: "input" } %>
+          <button type="button" class="password-toggle" data-action="click->password-visibility#toggle" data-password-visibility-target="icon">
+            <i data-lucide="eye"></i>
+          </button>
+        </div>
+      </div>
+
+      <% if devise_mapping.rememberable? %>
+        <div class="form-group">
+          <%= f.label :remember_me, class: "remember-me" do %>
+            <%= f.check_box :remember_me %>
+            <span>Remember me</span>
+          <% end %>
+        </div>
+      <% end %>
+
+      <div class="actions">
+        <%= f.submit "Sign in", class: "btn btn-primary", style: "width: 100%;" %>
+      </div>
+    <% end %>
+
+    <div class="auth-links">
+      <%= render "devise/shared/links" %>
+    </div>
+  </div>
+</div>
