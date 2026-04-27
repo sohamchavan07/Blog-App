@@ -3,7 +3,17 @@ class PostsController < ApplicationController
   before_action :set_post, only: %i[show edit update destroy]
 
   def index
-    @posts = Post.includes(:user).order(created_at: :desc)
+    @posts = Post.includes(:user, :tags).order(created_at: :desc)
+    
+    if params[:query].present?
+      query = params[:query]
+      if query.start_with?("#")
+        tag_name = query[1..-1]
+        @posts = @posts.joins(:tags).where(tags: { name: tag_name })
+      else
+        @posts = @posts.where("title ILIKE ? OR body ILIKE ?", "%#{query}%", "%#{query}%")
+      end
+    end
   end
 
   def show
@@ -45,6 +55,7 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:title, :body)
+    params.require(:post).permit(:title, :body, :tag_list)
   end
 end
+  

@@ -3,6 +3,14 @@
   <div class="post-meta">
     By <%= @post.user.name || @post.user.email %> • <%= @post.created_at.strftime("%B %d, %Y") %>
   </div>
+
+  <% if @post.tags.any? %>
+    <div class="tags">
+      <% @post.tags.each do |tag| %>
+        <%= link_to "##{tag.name}", posts_path(query: "##{tag.name}"), class: "tag" %>
+      <% end %>
+    </div>
+  <% end %>
   
   <div class="post-body" style="margin-top: 2rem;">
     <%= @post.body %>
@@ -21,24 +29,32 @@
   
   <div id="comments">
     <% @post.comments.each do |comment| %>
-      <div style="padding: 1rem 0; border-bottom: 1px solid var(--border-color);">
-        <div class="post-meta" style="margin-bottom: 0.5rem;">
-          <%= comment.created_at.strftime("%B %d, %Y") %>
+      <% if comment.persisted? %>
+        <div style="padding: 1rem 0; border-bottom: 1px solid var(--border-color);">
+          <div class="post-meta" style="margin-bottom: 0.5rem;">
+            <strong><%= comment.user.name || comment.user.email %></strong> • <%= time_ago_in_words(comment.created_at) %> ago
+          </div>
+          <div style="color: #334155;">
+            <%= comment.content %>
+          </div>
         </div>
-        <div style="color: #334155;">
-          <%= comment.content %>
-        </div>
-      </div>
+      <% end %>
     <% end %>
   </div>
 
   <div style="margin-top: 2rem;">
-    <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem;">Add a comment</h3>
-    <%= form_with(model: [@post, @post.comments.build], local: true) do |f| %>
-      <div class="form-group">
-        <%= f.text_area :content, class: "form-control", style: "min-height: 80px;", placeholder: "Write your comment here..." %>
-      </div>
-      <%= f.submit "Post Comment", class: "btn btn-primary" %>
+    <% if user_signed_in? %>
+      <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem;">Add a comment</h3>
+      <%= form_with(model: [@post, @post.comments.build], local: true) do |f| %>
+        <div class="form-group">
+          <%= f.text_area :content, class: "form-control", style: "min-height: 80px;", placeholder: "Write your comment here..." %>
+        </div>
+        <%= f.submit "Post Comment", class: "btn btn-primary" %>
+      <% end %>
+    <% else %>
+      <p style="color: var(--text-muted); text-align: center;">
+        <%= link_to "Sign in", new_user_session_path, style: "color: var(--primary-color); font-weight: 600;" %> to leave a comment.
+      </p>
     <% end %>
   </div>
 </section>

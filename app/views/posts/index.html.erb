@@ -1,6 +1,18 @@
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-  <h1 style="font-size: 2.5rem; font-weight: 800;">Recent Posts</h1>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+  <h1 style="font-size: 2.5rem; font-weight: 800; margin: 0;">Recent Posts</h1>
+  
+  <%= form_with url: posts_path, method: :get, local: true, style: "display: flex; gap: 0.5rem;" do |f| %>
+    <%= f.text_field :query, value: params[:query], placeholder: "Search posts...", class: "form-control", style: "width: 250px; padding: 0.5rem 0.75rem;" %>
+    <%= f.submit "Search", class: "btn btn-outline" %>
+  <% end %>
 </div>
+
+<% if params[:query].present? %>
+  <div style="margin-bottom: 2rem; color: var(--text-muted);">
+    Showing results for "<%= params[:query] %>" 
+    <%= link_to "Clear", posts_path, style: "margin-left: 0.5rem; color: var(--primary-color);" %>
+  </div>
+<% end %>
 
 <% if @posts.any? %>
   <% @posts.each do |post| %>
@@ -9,6 +21,15 @@
       <div class="post-meta">
         Posted by <%= post.user.name || post.user.email %> • <%= time_ago_in_words(post.created_at) %> ago
       </div>
+      
+      <% if post.tags.any? %>
+        <div class="tags">
+          <% post.tags.each do |tag| %>
+            <%= link_to "##{tag.name}", posts_path(query: "##{tag.name}"), class: "tag" %>
+          <% end %>
+        </div>
+      <% end %>
+
       <p style="color: #475569; margin-top: 1rem;">
         <%= truncate(post.body, length: 200) %>
       </p>
