@@ -39,5 +39,9 @@ This document tracks the major steps, features, and fixes implemented during the
 - **Design Overhaul**: Redesigned the registration and login pages to use a more modern, premium aesthetic (modern typography, glassmorphism-inspired elements, and improved button styles).
 - **Responsiveness**: Ensured the UI is fully responsive across different screen sizes.
 
+### 6. Security & Infrastructure
+- **Ruby Upgrade**: Upgraded Ruby from 3.2.2 to 3.3.1 to resolve a Brakeman security warning regarding the End-of-Life (EOL) status of Ruby 3.2.
+- **CI Fixes**: Updated `Gemfile.lock` with the `x86_64-linux` platform to ensure compatibility with GitHub Actions runners.
+
 ---
 *Last updated: April 27, 2026*
