@@ -1,0 +1,39 @@
+name: Rails CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:13
+        ports: ["5432:5432"]
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password # Keeping password in service but we will match it if needed, or allow trust.
+          # To support empty password in client, we can use trust auth.
+          POSTGRES_HOST_AUTH_METHOD: trust 
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.3.1
+
+      - name: Install dependencies
+        run: bundle install
+
+      - name: Setup database
+        run: |
+          cp config/database.yml.ci config/database.yml
+          rails db:create db:migrate
+
+      - name: Run tests
+        run: bin/rails test
