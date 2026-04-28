@@ -51,10 +51,10 @@ class PostsController < ApplicationController
   private
 
   def set_post
-    @post = Post.includes(:user, :comments).find(params[:id])
+    @post = Post.includes(:user, :tags, comments: :user).find(params[:id])
   end
 
   def post_params
-    params.require(:post).permit(:title, :body, :tag_list)
+    params.require(:post).permit(:title, :body, :tag_list, :cover_image)
   end
 end

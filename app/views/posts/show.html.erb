@@ -1,31 +1,33 @@
-<article class="card">
-  <% if @post.cover_image.attached? %>
-    <%= image_tag @post.cover_image, class: "post-cover-image-show" %>
-  <% end %>
-  <h1 class="post-title"><%= @post.title %></h1>
-  <div class="post-meta">
-    By <%= @post.user.name || @post.user.email %> • <%= @post.created_at.strftime("%B %d, %Y") %>
-  </div>
-
-  <% if @post.tags.any? %>
-    <div class="tags">
-      <% @post.tags.each do |tag| %>
-        <%= link_to "##{tag.name}", posts_path(query: "##{tag.name}"), class: "tag" %>
-      <% end %>
+<% cache @post do %>
+  <article class="card">
+    <% if @post.cover_image.attached? %>
+      <%= image_tag @post.cover_image, class: "post-cover-image-show" %>
+    <% end %>
+    <h1 class="post-title"><%= @post.title %></h1>
+    <div class="post-meta">
+      By <%= @post.user.name || @post.user.email %> • <%= @post.created_at.strftime("%B %d, %Y") %>
     </div>
-  <% end %>
-  
-  <div class="post-body" style="margin-top: 2rem;">
-    <%= @post.body %>
-  </div>
 
-  <% if user_signed_in? && @post.user == current_user %>
-    <div class="actions" style="margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
-      <%= link_to "Edit Post", edit_post_path(@post), class: "btn btn-outline" %>
-      <%= button_to "Delete Post", @post, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-outline btn-danger" %>
+    <% if @post.tags.any? %>
+      <div class="tags">
+        <% @post.tags.each do |tag| %>
+          <%= link_to "##{tag.name}", posts_path(query: "##{tag.name}"), class: "tag" %>
+        <% end %>
+      </div>
+    <% end %>
+
+    <div class="post-body" style="margin-top: 2rem;">
+      <%= @post.body %>
     </div>
-  <% end %>
-</article>
+
+    <% if user_signed_in? && @post.user == current_user %>
+      <div class="actions" style="margin-top: 3rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+        <%= link_to "Edit Post", edit_post_path(@post), class: "btn btn-outline" %>
+        <%= button_to "Delete Post", @post, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-outline btn-danger" %>
+      </div>
+    <% end %>
+  </article>
+<% end %>
 
 <section class="card" style="margin-top: 2rem;">
   <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem;">Comments (<%= @post.comments.count %>)</h2>
@@ -33,14 +35,16 @@
   <div id="comments">
     <% @post.comments.each do |comment| %>
       <% if comment.persisted? %>
-        <div style="padding: 1rem 0; border-bottom: 1px solid var(--border-color);">
-          <div class="post-meta" style="margin-bottom: 0.5rem;">
-            <strong><%= comment.user.name || comment.user.email %></strong> • <%= time_ago_in_words(comment.created_at) %> ago
+        <% cache comment do %>
+          <div style="padding: 1rem 0; border-bottom: 1px solid var(--border-color);">
+            <div class="post-meta" style="margin-bottom: 0.5rem;">
+              <strong><%= comment.user.name || comment.user.email %></strong> • <%= time_ago_in_words(comment.created_at) %> ago
+            </div>
+            <div style="color: #334155;">
+              <%= comment.content %>
+            </div>
           </div>
-          <div style="color: #334155;">
-            <%= comment.content %>
-          </div>
-        </div>
+        <% end %>
       <% end %>
     <% end %>
   </div>
