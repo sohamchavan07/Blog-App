@@ -2,7 +2,7 @@
   <div class="auth-card">
     <div class="auth-header">
       <h2>Create an account</h2>
-      <p>Join our community today</p>
+      <p>Join our community and start publishing today</p>
     </div>
 
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
@@ -39,6 +39,10 @@
       <div class="actions">
         <%= f.submit "Sign up", class: "btn btn-primary", style: "width: 100%;" %>
       </div>
+
+      <p class="auth-subtle">
+        By continuing, you agree to create an account using your email address.
+      </p>
     <% end %>
 
     <div class="auth-links">

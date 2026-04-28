@@ -22,11 +22,12 @@
       </div>
 
       <% if devise_mapping.rememberable? %>
-        <div class="form-group">
+        <div class="form-group auth-inline-row">
           <%= f.label :remember_me, class: "remember-me" do %>
             <%= f.check_box :remember_me %>
             <span>Remember me</span>
           <% end %>
+          <%= link_to "Forgot password?", new_password_path(resource_name), class: "auth-inline-link" %>
         </div>
       <% end %>
 
