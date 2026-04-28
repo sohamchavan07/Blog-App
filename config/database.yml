@@ -23,8 +23,13 @@ default: &default
 
 
 development:
-  <<: *default
-  database: blog_app_development
+  primary:
+    <<: *default
+    database: blog_app_development
+  cache:
+    <<: *default
+    database: blog_app_development
+    migrations_paths: db/cache_migrate
 
 
   # The specified database role being used to connect to PostgreSQL.
