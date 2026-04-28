@@ -21,9 +21,9 @@ module Api
 
         # Include pagination info in headers
         pagy_headers_merge(@pagy)
-        
+
         render json: {
-          posts: @posts.as_json(only: [:id, :title, :body, :created_at]),
+          posts: @posts.as_json(only: [ :id, :title, :body, :created_at ]),
           pagination: {
             count: @pagy.count,
             page: @pagy.page,
