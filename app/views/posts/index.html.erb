@@ -50,3 +50,7 @@
     <%= link_to "Create First Post", new_post_path, class: "btn btn-primary" %>
   </div>
 <% end %>
+
+<div style="display: flex; justify-content: center; margin-top: 3rem;">
+  <%== pagy_bootstrap_nav(@pagy) %>
+</div>

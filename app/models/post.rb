@@ -9,7 +9,7 @@ class Post < ApplicationRecord
   validates :body, presence: true
 
   def tag_list
-    tags.map(&:name).join(", ")
+    tags.pluck(:name).join(", ")
   end
 
   def tag_list=(names)

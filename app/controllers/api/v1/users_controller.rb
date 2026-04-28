@@ -6,7 +6,7 @@ module Api
           User.order(:id).to_a
         end
 
-        render json: users
+        render json: users.as_json(only: [ :id, :name ])
       end
     end
   end

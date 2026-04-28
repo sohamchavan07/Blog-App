@@ -6,17 +6,43 @@ module Api
 
       def index
         @posts = Post.includes(:user, :comments, :tags).order(created_at: :desc)
-        render json: @posts
+
+        if params[:query].present?
+          query = params[:query]
+          if query.start_with?("#")
+            tag_name = query[1..-1]
+            @posts = @posts.joins(:tags).where(tags: { name: tag_name })
+          else
+            @posts = @posts.where("title ILIKE ? OR body ILIKE ?", "%#{query}%", "%#{query}%")
+          end
+        end
+
+        @pagy, @posts = pagy(@posts)
+
+        # Include pagination info in headers
+        pagy_headers_merge(@pagy)
+        
+        render json: {
+          posts: @posts.as_json(only: [:id, :title, :body, :created_at]),
+          pagination: {
+            count: @pagy.count,
+            page: @pagy.page,
+            items: @pagy.items,
+            pages: @pagy.pages,
+            next: @pagy.next,
+            prev: @pagy.prev
+          }
+        }
       end
 
       def show
-        render json: @post
+        render json: @post.as_json(only: [ :id, :title, :body, :created_at ])
       end
 
       def create
         @post = @current_user.posts.new(post_params)
         if @post.save
-          render json: @post, status: :created
+          render json: @post.as_json(only: [ :id, :title, :body, :created_at ]), status: :created
         else
           render json: { errors: @post.errors.full_messages }, status: :unprocessable_entity
         end
@@ -24,7 +50,7 @@ module Api
 
       def update
         if @post.update(post_params)
-          render json: @post
+          render json: @post.as_json(only: [ :id, :title, :body, :created_at ])
         else
           render json: { errors: @post.errors.full_messages }, status: :unprocessable_entity
         end
