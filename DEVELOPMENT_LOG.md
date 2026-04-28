@@ -43,6 +43,11 @@ This document tracks the major steps, features, and fixes implemented during the
 - **Ruby Upgrade**: Upgraded Ruby from 3.2.2 to 3.3.1 to resolve a Brakeman security warning regarding the End-of-Life (EOL) status of Ruby 3.2.
 - **CI Fixes**: Updated `Gemfile.lock` with the `x86_64-linux` platform to ensure compatibility with GitHub Actions runners.
 
+### 7. Deployment & Infrastructure
+- **Database Connection Fix**: Resolved `ActiveRecord::ConnectionNotEstablished` errors during deployment on Render by:
+    - Configuring the `production` database in `config/database.yml` to utilize the `DATABASE_URL` environment variable.
+    - Ensuring the `DATABASE_URL` was correctly set in the Render environment settings to connect to the managed PostgreSQL instance.
+
 ---
 *Last updated: April 28, 2026*
 
