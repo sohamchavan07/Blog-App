@@ -86,3 +86,15 @@ This document tracks the major steps, features, and fixes implemented during the
 - **View Updates**: 
     - Implemented responsive cover image display on both index (listing) and show (detail) pages.
     - Added CSS for `object-fit: cover` to ensure consistent image aspect ratios.
+
+## 2026-04-28: Production Image Fix
+
+### 1. Fix Broken Images (404 Error)
+- **Problem**: Images uploaded in production were disappearing (404) because Render's local storage is ephemeral (cleared on every restart/redeploy).
+- **Solution**: Switched from `:local` storage to a permanent Cloud Storage provider (e.g., Cloudinary or AWS S3).
+- **Steps Taken**:
+    - Updated `config/storage.yml` with cloud credentials.
+    - Set `active_storage.service` to the cloud provider in `config/environments/production.rb`.
+    - Configured `default_url_options` with the production host (`blog.sohamchavan.site`).
+    - Re-enabled `config.force_ssl = true` for secure image delivery.
+- **What to do if images aren't showing**: Ensure the cloud provider credentials are set in environment variables and the `service` is correctly pointed to the cloud in `production.rb`.
