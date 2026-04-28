@@ -80,6 +80,15 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
+🚀 Production
+To run the application in a production environment, use the following command:
+
+```bash
+bundle exec puma -e production
+```
+
+---
+
 💡 Usage
 ```bash
 # Example command or workflow
