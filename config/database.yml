@@ -26,9 +26,15 @@ development:
   primary:
     <<: *default
     database: blog_app_development
+    username: postgres
+    password: password
+    host: db
   cache:
     <<: *default
     database: blog_app_development
+    username: postgres
+    password: password
+    host: db
     migrations_paths: db/cache_migrate
 
 
