@@ -5,7 +5,7 @@ module Api
       before_action :set_post, only: [ :show, :update, :destroy ]
 
       def index
-        @posts = Post.includes(:user, :comments, :tags).order(created_at: :desc)
+        @posts = Post.order(created_at: :desc)
 
         if params[:query].present?
           query = params[:query]
@@ -64,7 +64,7 @@ module Api
       private
 
       def set_post
-        @post = Post.includes(:user, :comments, :tags).find(params[:id])
+        @post = Post.find(params[:id])
       rescue ActiveRecord::RecordNotFound
         render json: { error: "Post not found" }, status: :not_found
       end

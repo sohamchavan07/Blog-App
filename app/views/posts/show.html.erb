@@ -30,7 +30,7 @@
 <% end %>
 
 <section class="card" style="margin-top: 2rem;">
-  <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem;">Comments (<%= @post.comments.count %>)</h2>
+  <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem;">Comments (<%= @post.comments.size %>)</h2>
   
   <div id="comments">
     <% @post.comments.each do |comment| %>

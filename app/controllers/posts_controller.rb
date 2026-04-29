@@ -3,7 +3,7 @@ class PostsController < ApplicationController
   before_action :set_post, only: %i[show edit update destroy]
 
   def index
-    @posts = Post.includes(:user, :tags).order(created_at: :desc)
+    @posts = Post.includes(:user, :tags).with_attached_cover_image.order(created_at: :desc)
 
     if params[:query].present?
       query = params[:query]
@@ -53,7 +53,7 @@ class PostsController < ApplicationController
   private
 
   def set_post
-    @post = Post.includes(:user, :tags, comments: :user).find(params[:id])
+    @post = Post.includes(:user, :tags, comments: :user).with_attached_cover_image.find(params[:id])
   end
 
   def post_params
