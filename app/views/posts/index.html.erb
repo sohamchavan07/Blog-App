@@ -17,28 +17,32 @@
 <% if @posts.any? %>
   <% @posts.each do |post| %>
     <% cache post do %>
-      <div class="card">
+      <div class="post-card">
         <% if post.cover_image.attached? %>
-          <%= image_tag post.cover_image, class: "post-cover-image" %>
+          <%= image_tag post.cover_image.variant(resize_to_fill: [800, 400, { gravity: "auto" }]), 
+                        class: "blog-card-img", 
+                        alt: post.title %>
         <% end %>
-        <%= link_to post.title, post, class: "post-title-link" %>
-        <div class="post-meta">
-          Posted by <%= post.user.name || post.user.email %> • <%= time_ago_in_words(post.created_at) %> ago
-        </div>
-
-        <% if post.tags.any? %>
-          <div class="tags">
-            <% post.tags.each do |tag| %>
-              <%= link_to "##{tag.name}", posts_path(query: "##{tag.name}"), class: "tag" %>
-            <% end %>
+        <div style="padding: 1.5rem;">
+          <%= link_to post.title, post, class: "post-title-link" %>
+          <div class="post-meta">
+            Posted by <%= post.user.name || post.user.email %> • <%= time_ago_in_words(post.created_at) %> ago
           </div>
-        <% end %>
 
-        <p style="color: #475569; margin-top: 1rem;">
-          <%= truncate(post.body, length: 200) %>
-        </p>
-        <div class="actions">
-          <%= link_to "Read More", post, class: "btn btn-outline" %>
+          <% if post.tags.any? %>
+            <div class="tags">
+              <% post.tags.each do |tag| %>
+                <%= link_to "##{tag.name}", posts_path(query: "##{tag.name}"), class: "tag" %>
+              <% end %>
+            </div>
+          <% end %>
+
+          <p style="color: #475569; margin-top: 1rem;">
+            <%= truncate(post.body, length: 200) %>
+          </p>
+          <div class="actions">
+            <%= link_to "Read More", post, class: "btn btn-outline" %>
+          </div>
         </div>
       </div>
     <% end %>

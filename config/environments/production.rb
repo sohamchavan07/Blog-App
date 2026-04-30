@@ -29,9 +29,9 @@ Rails.application.configure do
   # Find the line that sets the active_storage.service and update it:
   config.active_storage.service = :cloudinary
 
- # Assume all access to the app is happening through a SSL-terminating reverse proxy.
- config.assume_ssl = true
- config.force_ssl = true
+  # Assume all access to the app is happening through a SSL-terminating reverse proxy.
+  # config.assume_ssl = true
+  # config.force_ssl = true
 
   # Skip http-to-https redirect for the default health check endpoint.
   # config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/up" } } }

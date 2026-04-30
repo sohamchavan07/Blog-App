@@ -396,3 +396,34 @@ textarea.form-control {
     align-items: flex-start;
   }
 }
+
+/* Blog Card Styles */
+.blog-card-img {
+  width: 100%;           /* Takes up the full width of the card */
+  height: 250px;         /* Set a fixed height so all cards look uniform */
+  object-fit: cover;     /* Crops the image to fit the box without stretching it */
+  display: block;
+  border-radius: 8px 8px 0 0; /* Matches the rounded corners of your card */
+}
+
+/* For mobile screens, you might want a shorter height */
+@media (max-width: 600px) {
+  .blog-card-img {
+    height: 200px;
+  }
+}
+
+.post-card {
+  border: 1px solid #e1e4e8;
+  border-radius: 8px;
+  overflow: hidden;      /* This ensures the image corners stay rounded */
+  margin-bottom: 20px;
+  transition: transform 0.2s;
+  background: white;
+}
+
+.post-card:hover {
+  transform: translateY(-4px); /* Adds a nice lift effect on hover */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
