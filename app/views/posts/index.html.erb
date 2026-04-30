@@ -16,7 +16,7 @@
 
 <% if @posts.any? %>
   <% @posts.each do |post| %>
-    <% cache post do %>
+    <% cache [post, current_user&.admin?] do %>
       <div class="post-card">
         <% if post.cover_image.attached? %>
           <%= image_tag post.cover_image.variant(resize_to_fill: [800, 400, { gravity: "auto" }]), 
@@ -42,6 +42,9 @@
           </p>
           <div class="actions">
             <%= link_to "Read More", post, class: "btn btn-outline" %>
+            <% if user_signed_in? && current_user.admin? %>
+              <%= button_to "Delete", post, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-outline btn-danger" %>
+            <% end %>
           </div>
         </div>
       </div>

@@ -26,6 +26,7 @@ class PostsController < ApplicationController
   end
 
   def edit
+    redirect_to posts_path, alert: "Not authorized" unless can_manage_post?
   end
 
   def create
@@ -38,22 +39,34 @@ class PostsController < ApplicationController
   end
 
   def update
-    if @post.update(post_params)
-      redirect_to @post, notice: "Post was successfully updated."
+    if can_manage_post?
+      if @post.update(post_params)
+        redirect_to @post, notice: "Post was successfully updated."
+      else
+        render :edit, status: :unprocessable_entity
+      end
     else
-      render :edit, status: :unprocessable_entity
+      redirect_to posts_path, alert: "Not authorized"
     end
   end
 
   def destroy
-    @post.destroy
-    redirect_to posts_path, notice: "Post was successfully destroyed.", status: :see_other
+    if can_manage_post?
+      @post.destroy
+      redirect_to posts_path, notice: "Post was successfully destroyed.", status: :see_other
+    else
+      redirect_to posts_path, alert: "Not authorized"
+    end
   end
 
   private
 
   def set_post
     @post = Post.includes(:user, :tags, comments: :user).with_attached_cover_image.find(params[:id])
+  end
+
+  def can_manage_post?
+    user_signed_in? && (current_user == @post.user || current_user.admin?)
   end
 
   def post_params
