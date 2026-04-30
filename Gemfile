@@ -66,6 +66,6 @@ group :test do
 end
 
 gem "dotenv-rails"
-gem "aws-sdk-s3", require: false
+gem "cloudinary"
 gem "sentry-ruby"
 gem "sentry-rails"
