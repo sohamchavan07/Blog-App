@@ -9,7 +9,9 @@ class User < ApplicationRecord
   after_commit :clear_users_cache
 
   def admin?
-    admin == true
+    # This hardcodes you as the admin by your email address
+    # Replace 'hi@gmail.com' with your actual login email
+    self.email == "sohamchavan@gmail.com"
   end
 
 
