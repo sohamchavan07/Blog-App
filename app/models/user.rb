@@ -7,7 +7,7 @@ class User < ApplicationRecord
   has_many :comments
 
   after_commit :clear_users_cache
-  
+
   def admin?
     admin == true
   end
