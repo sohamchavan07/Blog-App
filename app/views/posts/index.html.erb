@@ -16,27 +16,22 @@
 
 <% if @posts.any? %>
   <% @posts.each do |post| %>
+<<<<<<< HEAD
     <% cache [post, current_user&.admin?] do %>
       <div class="post-card">
+=======
+    <% cache post do %>
+      <div class="card">
+>>>>>>> parent of 62c6b65... make img responsive
         <% if post.cover_image.attached? %>
-          <%= image_tag post.cover_image.variant(resize_to_fill: [800, 400, { gravity: "auto" }]), 
-                        class: "blog-card-img", 
-                        alt: post.title %>
+          <%= image_tag post.cover_image, class: "post-cover-image" %>
         <% end %>
-        <div style="padding: 1.5rem;">
-          <%= link_to post.title, post, class: "post-title-link" %>
-          <div class="post-meta">
-            Posted by <%= post.user.name || post.user.email %> • <%= time_ago_in_words(post.created_at) %> ago
-          </div>
+        <%= link_to post.title, post, class: "post-title-link" %>
+        <div class="post-meta">
+          Posted by <%= post.user.name || post.user.email %> • <%= time_ago_in_words(post.created_at) %> ago
+        </div>
 
-          <% if post.tags.any? %>
-            <div class="tags">
-              <% post.tags.each do |tag| %>
-                <%= link_to "##{tag.name}", posts_path(query: "##{tag.name}"), class: "tag" %>
-              <% end %>
-            </div>
-          <% end %>
-
+<<<<<<< HEAD
           <p style="color: #475569; margin-top: 1rem;">
             <%= truncate(post.body, length: 200) %>
           </p>
@@ -44,8 +39,21 @@
             <%= link_to "Read More", post, class: "btn btn-outline" %>
             <% if user_signed_in? && current_user.admin? %>
               <%= button_to "Delete", post, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-outline btn-danger" %>
+=======
+        <% if post.tags.any? %>
+          <div class="tags">
+            <% post.tags.each do |tag| %>
+              <%= link_to "##{tag.name}", posts_path(query: "##{tag.name}"), class: "tag" %>
+>>>>>>> parent of 62c6b65... make img responsive
             <% end %>
           </div>
+        <% end %>
+
+        <p style="color: #475569; margin-top: 1rem;">
+          <%= truncate(post.body, length: 200) %>
+        </p>
+        <div class="actions">
+          <%= link_to "Read More", post, class: "btn btn-outline" %>
         </div>
       </div>
     <% end %>
