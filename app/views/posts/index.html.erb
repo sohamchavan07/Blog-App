@@ -16,56 +16,53 @@
 
 <% if @posts.any? %>
   <% @posts.each do |post| %>
-<<<<<<< HEAD
+    <%# Using a simpler cache key while debugging %>
     <% cache [post, current_user&.admin?] do %>
       <div class="post-card">
-=======
-    <% cache post do %>
-      <div class="card">
->>>>>>> parent of 62c6b65... make img responsive
         <% if post.cover_image.attached? %>
-          <%= image_tag post.cover_image, class: "post-cover-image" %>
+          <%# RESPONSIVE IMAGE LOGIC %>
+          <%= image_tag post.cover_image.variant(resize_to_fill: [800, 400, { gravity: "auto" }]), class: "blog-card-img" %>
         <% end %>
-        <%= link_to post.title, post, class: "post-title-link" %>
-        <div class="post-meta">
-          Posted by <%= post.user.name || post.user.email %> • <%= time_ago_in_words(post.created_at) %> ago
-        </div>
 
-<<<<<<< HEAD
-          <p style="color: #475569; margin-top: 1rem;">
+        <div style="padding: 1.5rem;">
+          <%= link_to post.title, post, class: "post-title-link", style: "font-size: 1.5rem; font-weight: 700; text-decoration: none; color: #1e293b;" %>
+          
+          <div class="post-meta" style="font-size: 0.875rem; color: #64748b; margin-top: 0.5rem;">
+            Posted by <%= post.user.name || post.user.email %> • <%= time_ago_in_words(post.created_at) %> ago
+          </div>
+
+          <% if post.tags.any? %>
+            <div class="tags" style="margin-top: 0.75rem;">
+              <% post.tags.each do |tag| %>
+                <%= link_to "##{tag.name}", posts_path(query: "##{tag.name}"), class: "tag" %>
+              <% end %>
+            </div>
+          <% end %>
+
+          <p style="color: #475569; margin-top: 1rem; line-height: 1.6;">
             <%= truncate(post.body, length: 200) %>
           </p>
-          <div class="actions">
+
+          <div class="actions" style="margin-top: 1.5rem; display: flex; gap: 1rem;">
             <%= link_to "Read More", post, class: "btn btn-outline" %>
+            
+            <%# ADMIN DELETE BUTTON %>
             <% if user_signed_in? && current_user.admin? %>
               <%= button_to "Delete", post, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-outline btn-danger" %>
-=======
-        <% if post.tags.any? %>
-          <div class="tags">
-            <% post.tags.each do |tag| %>
-              <%= link_to "##{tag.name}", posts_path(query: "##{tag.name}"), class: "tag" %>
->>>>>>> parent of 62c6b65... make img responsive
             <% end %>
           </div>
-        <% end %>
-
-        <p style="color: #475569; margin-top: 1rem;">
-          <%= truncate(post.body, length: 200) %>
-        </p>
-        <div class="actions">
-          <%= link_to "Read More", post, class: "btn btn-outline" %>
         </div>
       </div>
     <% end %>
   <% end %>
 <% else %>
-  <div class="card" style="text-align: center; padding: 4rem 2rem;">
-    <h2 style="color: var(--text-muted);">No posts yet.</h2>
+  <div class="post-card" style="text-align: center; padding: 4rem 2rem;">
+    <h2 style="color: #64748b;">No posts yet.</h2>
     <p style="margin-bottom: 2rem;">Be the first one to share something!</p>
     <%= link_to "Create First Post", new_post_path, class: "btn btn-primary" %>
   </div>
 <% end %>
 
 <div style="display: flex; justify-content: center; margin-top: 3rem;">
-  <%== pagy_bootstrap_nav(@pagy) %>
+  <%== pagy_bootstrap_nav(@pagy) if @pagy %>
 </div>
