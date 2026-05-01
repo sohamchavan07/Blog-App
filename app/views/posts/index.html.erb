@@ -1,54 +1,76 @@
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
-  <h1 style="font-size: 2.5rem; font-weight: 800; margin: 0;">Recent Posts</h1>
+<div class="index-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1.5rem;">
+  <h1 style="font-size: 2.5rem; font-weight: 800; margin: 0; letter-spacing: -0.025em;">Recent Posts</h1>
   
-  <%= form_with url: posts_path, method: :get, local: true, style: "display: flex; gap: 0.5rem;" do |f| %>
-    <%= f.text_field :query, value: params[:query], placeholder: "Search posts...", class: "form-control", style: "width: 250px; padding: 0.5rem 0.75rem;" %>
-    <%= f.submit "Search", class: "btn btn-outline" %>
+  <%= form_with url: posts_path, method: :get, local: true, class: "search-form", style: "display: flex; gap: 0.5rem;" do |f| %>
+    <div style="position: relative; display: flex; align-items: center;">
+      <i data-lucide="search" style="position: absolute; left: 0.75rem; width: 1.25rem; height: 1.25rem; color: var(--text-muted);"></i>
+      <%= f.text_field :query, value: params[:query], placeholder: "Search posts...", class: "form-control", style: "width: 280px; padding: 0.6rem 0.75rem 0.6rem 2.5rem;" %>
+    </div>
+    <%= f.submit "Search", class: "btn btn-primary" %>
   <% end %>
 </div>
 
 <% if params[:query].present? %>
-  <div style="margin-bottom: 2rem; color: var(--text-muted);">
-    Showing results for "<%= params[:query] %>" 
-    <%= link_to "Clear", posts_path, style: "margin-left: 0.5rem; color: var(--primary-color);" %>
+  <div style="margin-bottom: 2rem; display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted); font-weight: 500;">
+    <i data-lucide="filter" style="width: 1rem; height: 1rem;"></i>
+    Showing results for "<span style="color: var(--text-main);"><%= params[:query] %></span>" 
+    <%= link_to posts_path, style: "margin-left: 0.5rem; text-decoration: none; color: var(--primary-color); display: flex; align-items: center; gap: 0.25rem;" do %>
+      <i data-lucide="x-circle" style="width: 1rem; height: 1rem;"></i> Clear
+    <% end %>
   </div>
 <% end %>
 
 <% if @posts.any? %>
   <% @posts.each do |post| %>
-    <%# Using a simpler cache key while debugging %>
-    <% cache [post, current_user&.admin?] do %>
-      <div class="post-card">
+    <%# Fix: Cache key now includes permissions to prevent UI leakage between users %>
+    <% can_manage = user_signed_in? && (current_user == post.user || current_user.admin?) %>
+    <% cache [post, can_manage] do %>
+      <div class="card" style="padding: 0; margin-bottom: 2.5rem;">
         <% if post.cover_image.attached? %>
-          <%# RESPONSIVE IMAGE LOGIC %>
-          <%= image_tag post.cover_image.variant(resize_to_fill: [800, 400, { gravity: "auto" }]), class: "blog-card-img" %>
+          <%= link_to post do %>
+            <%= image_tag post.cover_image.variant(resize_to_fill: [800, 400, { gravity: "auto" }]), class: "post-cover-image", style: "margin: 0; width: 100%; border-radius: 0;" %>
+          <% end %>
         <% end %>
 
-        <div style="padding: 1.5rem;">
-          <%= link_to post.title, post, class: "post-title-link", style: "font-size: 1.5rem; font-weight: 700; text-decoration: none; color: #1e293b;" %>
+        <div style="padding: 2rem;">
+          <%= link_to post.title, post, class: "post-title-link", style: "font-size: 1.75rem; margin-bottom: 0.75rem;" %>
           
-          <div class="post-meta" style="font-size: 0.875rem; color: #64748b; margin-top: 0.5rem;">
-            Posted by <%= post.user.name || post.user.email %> • <%= time_ago_in_words(post.created_at) %> ago
+          <div class="post-meta" style="margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem;">
+            <i data-lucide="user" style="width: 1rem; height: 1rem;"></i>
+            <span><%= post.user.name.presence || post.user.email %></span>
+            <span style="color: var(--border-color);">|</span>
+            <i data-lucide="calendar" style="width: 1rem; height: 1rem;"></i>
+            <span><%= time_ago_in_words(post.created_at) %> ago</span>
           </div>
 
           <% if post.tags.any? %>
-            <div class="tags" style="margin-top: 0.75rem;">
+            <div class="tags" style="margin-bottom: 1.5rem;">
               <% post.tags.each do |tag| %>
-                <%= link_to "##{tag.name}", posts_path(query: "##{tag.name}"), class: "tag" %>
+                <%= link_to posts_path(query: "##{tag.name}"), class: "tag" do %>
+                  <i data-lucide="tag" style="width: 0.75rem; height: 0.75rem; display: inline-block; margin-right: 2px;"></i><%= tag.name %>
+                <% end %>
               <% end %>
             </div>
           <% end %>
 
-          <p style="color: #475569; margin-top: 1rem; line-height: 1.6;">
-            <%= truncate(post.body, length: 200) %>
+          <p style="color: #475569; margin-bottom: 2rem; line-height: 1.7; font-size: 1.05rem;">
+            <%= truncate(post.body, length: 220) %>
           </p>
 
-          <div class="actions" style="margin-top: 1.5rem; display: flex; gap: 1rem;">
-            <%= link_to "Read More", post, class: "btn btn-outline" %>
+          <div class="actions" style="display: flex; justify-content: space-between; align-items: center;">
+            <%= link_to post, class: "btn btn-primary", style: "display: flex; align-items: center; gap: 0.5rem;" do %>
+              Read Full Article <i data-lucide="arrow-right" style="width: 1.25rem; height: 1.25rem;"></i>
+            <% end %>
             
-            <%# ADMIN DELETE BUTTON %>
-            <% if user_signed_in? && current_user.admin? %>
-              <%= button_to "Delete", post, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-outline btn-danger" %>
+            <% if can_manage %>
+              <div style="display: flex; gap: 0.5rem;">
+                <%= link_to edit_post_path(post), class: "btn btn-outline", title: "Edit Post" do %>
+                  <i data-lucide="edit-3" style="width: 1.25rem; height: 1.25rem;"></i>
+                <% end %>
+                <%= button_to post, method: :delete, data: { turbo_confirm: "Are you sure you want to delete this post?" }, class: "btn btn-outline btn-danger", title: "Delete Post" do %>
+                  <i data-lucide="trash-2" style="width: 1.25rem; height: 1.25rem;"></i>
+                <% end %>
+              </div>
             <% end %>
           </div>
         </div>
@@ -56,13 +78,24 @@
     <% end %>
   <% end %>
 <% else %>
-  <div class="post-card" style="text-align: center; padding: 4rem 2rem;">
-    <h2 style="color: #64748b;">No posts yet.</h2>
-    <p style="margin-bottom: 2rem;">Be the first one to share something!</p>
-    <%= link_to "Create First Post", new_post_path, class: "btn btn-primary" %>
+  <div class="card" style="text-align: center; padding: 5rem 2rem;">
+    <div style="background: var(--bg-color); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+      <i data-lucide="file-text" style="width: 40px; height: 40px; color: var(--text-muted);"></i>
+    </div>
+    <h2 style="color: var(--text-main); font-weight: 800; margin-bottom: 0.5rem;">No posts found</h2>
+    <p style="color: var(--text-muted); margin-bottom: 2.5rem; max-width: 400px; margin-left: auto; margin-right: auto;">
+      <% if params[:query].present? %>
+        We couldn't find any posts matching your search. Try different keywords or clear the filter.
+      <% else %>
+        The blog is currently empty. Be the first one to share your thoughts with the world!
+      <% end %>
+    </p>
+    <%= link_to new_post_path, class: "btn btn-primary", style: "display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.8rem 1.5rem;" do %>
+      <i data-lucide="plus-circle" style="width: 1.25rem; height: 1.25rem;"></i> Create First Post
+    <% end %>
   </div>
 <% end %>
 
-<div style="display: flex; justify-content: center; margin-top: 3rem;">
+<div style="display: flex; justify-content: center; margin-top: 4rem; margin-bottom: 2rem;">
   <%== pagy_bootstrap_nav(@pagy) if @pagy %>
 </div>
