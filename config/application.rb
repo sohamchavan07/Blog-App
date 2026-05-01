@@ -26,5 +26,8 @@ module BlogApp
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # Use MiniMagick instead of Vips for image processing (fixes libvips load error)
+    config.active_storage.variant_processor = :mini_magick
   end
 end
