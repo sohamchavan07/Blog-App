@@ -1,7 +1,7 @@
 FROM ruby:3.3.1
 
 # Install dependencies
-RUN apt-get update -qq && apt-get install -y nodejs postgresql-client libjemalloc2
+RUN apt-get update -qq && apt-get install -y nodejs postgresql-client libjemalloc2 libvips imagemagick
 
 # Set working directory
 WORKDIR /rails
