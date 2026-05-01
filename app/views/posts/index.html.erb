@@ -28,7 +28,7 @@
       <div class="card" style="padding: 0; margin-bottom: 2.5rem;">
         <% if post.cover_image.attached? %>
           <%= link_to post do %>
-            <%= image_tag post.cover_image.variant(resize_to_fill: [800, 400, { gravity: "auto" }]), class: "post-cover-image", style: "margin: 0; width: 100%; border-radius: 0;" %>
+            <%= image_tag post.cover_image.variant(resize_to_fill: [800, 400, { gravity: "Center" }]), class: "post-cover-image", style: "margin: 0; width: 100%; border-radius: 0;" %>
           <% end %>
         <% end %>
 

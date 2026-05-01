@@ -1,7 +1,7 @@
 <% cache [@post, current_user&.admin?] do %>
   <article class="card">
     <% if @post.cover_image.attached? %>
-      <%= image_tag @post.cover_image, class: "post-cover-image-show" %>
+      <%= image_tag @post.cover_image.variant(resize_to_fill: [800, 400, { gravity: "Center" }]), class: "post-cover-image-show" %>
     <% end %>
     <h1 class="post-title"><%= @post.title %></h1>
     <div class="post-meta">
