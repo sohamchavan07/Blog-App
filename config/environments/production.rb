@@ -30,8 +30,8 @@ Rails.application.configure do
   config.active_storage.service = :cloudinary
 
  # Assume all access to the app is happening through a SSL-terminating reverse proxy.
- config.assume_ssl = true
- config.force_ssl = true
+ config.assume_ssl = ENV["RAILS_ASSUME_SSL"] == "true"
+ config.force_ssl = ENV["RAILS_FORCE_SSL"] == "true"
 
   # Skip http-to-https redirect for the default health check endpoint.
   # config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/up" } } }
@@ -63,6 +63,7 @@ Rails.application.configure do
 
   # Set host to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = { host: "blog.sohamchavan.site" }
+  Rails.application.routes.default_url_options[:host] = "blog.sohamchavan.site"
 
   # Specify outgoing SMTP server. Remember to add smtp/* credentials via rails credentials:edit.
   # config.action_mailer.smtp_settings = {
