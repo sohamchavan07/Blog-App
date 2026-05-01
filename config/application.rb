@@ -29,5 +29,8 @@ module BlogApp
 
     # Use MiniMagick instead of Vips for image processing (fixes libvips load error)
     config.active_storage.variant_processor = :mini_magick
+
+    # Use Sidekiq as the back-end for Active Job.
+    config.active_job.queue_adapter = :sidekiq
   end
 end

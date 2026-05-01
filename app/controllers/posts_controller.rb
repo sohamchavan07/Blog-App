@@ -32,6 +32,7 @@ class PostsController < ApplicationController
   def create
     @post = current_user.posts.new(post_params)
     if @post.save
+      ProcessImageJob.perform_later(@post.id) if post_params[:cover_image].present?
       redirect_to @post, notice: "Post was successfully created."
     else
       render :new, status: :unprocessable_entity
@@ -41,6 +42,7 @@ class PostsController < ApplicationController
   def update
     if can_manage_post?
       if @post.update(post_params)
+        ProcessImageJob.perform_later(@post.id) if post_params[:cover_image].present?
         redirect_to @post, notice: "Post was successfully updated."
       else
         render :edit, status: :unprocessable_entity
