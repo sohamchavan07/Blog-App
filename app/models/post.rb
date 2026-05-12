@@ -9,6 +9,7 @@ class Post < ApplicationRecord
   has_one_attached :cover_image
   has_rich_text :body
 
+  attribute :status, :integer, default: 0
   enum :status, { draft: 0, published: 1 }, default: :draft
 
   after_initialize :set_defaults, if: :new_record?

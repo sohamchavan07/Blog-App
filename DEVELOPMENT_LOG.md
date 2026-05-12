@@ -49,7 +49,51 @@ This document tracks the major steps, features, and fixes implemented during the
     - Ensuring the `DATABASE_URL` was correctly set in the Render environment settings to connect to the managed PostgreSQL instance.
 
 ---
-*Last updated: April 28, 2026*
+*Last updated: May 12, 2026*
+
+## 2026-05-12: Major Feature Enhancements & UX Overhaul
+
+### 1. Rich Text & Content Management
+- **ActionText Integration**:
+    - Installed and configured ActionText (Trix editor).
+    - Replaced plain text `body` with `has_rich_text :body` in the `Post` model.
+    - Updated forms and views to support formatted text, lists, and drag-and-drop image attachments.
+    - Added `trix-content` styling for consistent typography and responsive media.
+- **Post Lifecycle (Drafts/Published)**:
+    - Added a `status` enum to posts (draft: 0, published: 1).
+    - Implemented visibility logic: only "published" posts are public; "drafts" are restricted to authors and admins.
+    - Added status badges to post cards and detail views.
+
+### 2. SEO & Navigation
+- **FriendlyId Integration**:
+    - Replaced numeric IDs in URLs with SEO-friendly slugs (e.g., `/posts/my-post-title`).
+    - Configured automatic slug generation from post titles.
+    - Updated `PostsController` to resolve posts using FriendlyId lookups.
+
+### 3. User Experience & Social Features
+- **Post View Tracking**:
+    - Added a `views_count` counter to posts.
+    - Implemented automatic incrementing on each post view.
+    - Displayed view counts on post cards and detail pages.
+- **Estimated Reading Time**:
+    - Added a logic in the `Post` model to calculate reading time based on word count.
+    - Displayed "X min read" metadata on all post listings.
+- **Social Sharing Integration**:
+    - Added a sharing partial with one-click buttons for **Twitter/X**, **LinkedIn**, and **Facebook**.
+    - Pre-populated sharing links with post titles and canonical URLs.
+- **Real-time Comments**:
+    - Integrated **Turbo Streams** for instant comment delivery.
+    - New comments now appear for all active viewers without page refreshes.
+
+### 4. Author Profiles & Social Identity
+- **Enhanced Profiles**:
+    - Expanded the `User` model with `bio`, `twitter_handle`, `linkedin_url`, and `github_username`.
+    - Updated the "Edit Profile" page to allow users to customize their social identity.
+    - Configured Devise to permit these new attributes during account updates.
+- **Author Bio Section**:
+    - Added a dedicated "About the Author" card to the bottom of every post.
+    - Implemented smart avatar logic: prioritizes **Google OmniAuth avatars** with a stylish initial-based fallback for other users.
+- **Social Links**: Displayed clickable social icons for authors within their bio section.
 
 ## 2026-04-28: Comment Enhancements
 
