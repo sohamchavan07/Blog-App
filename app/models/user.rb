@@ -3,7 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :omniauthable, omniauth_providers: [:google_oauth2]
+         :omniauthable, omniauth_providers: [ :google_oauth2 ]
 
   has_many :posts
   has_many :comments
@@ -14,7 +14,7 @@ class User < ApplicationRecord
       user.password = Devise.friendly_token[0, 20]
       user.full_name = auth.info.name # assuming you want to store full name
       user.avatar_url = auth.info.image # assuming you want to store avatar url
-      # If you are using confirmable and the provider already confirms emails, 
+      # If you are using confirmable and the provider already confirms emails,
       # uncomment the line below to skip the confirmation emails.
       # user.skip_confirmation!
     end
