@@ -5,7 +5,9 @@ Rails.application.routes.draw do
     mount Sidekiq::Web => "/sidekiq"
   end
 
-  devise_for :users
+  devise_for :users, controllers: {
+    omniauth_callbacks: "users/omniauth_callbacks"
+  }
   devise_scope :user do
     get "/admin/sign_in", to: "devise/sessions#new"
   end

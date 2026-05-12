@@ -8,7 +8,7 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-User.find_or_create_by!(email: "sohamchavan@gmail.com") do |user|
+User.find_or_create_by!(email: "[EMAIL_ADDRESS]") do |user|
   user.password = "admin@123"
   user.password_confirmation = "admin@123"
 end

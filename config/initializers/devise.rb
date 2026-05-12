@@ -15,4 +15,11 @@ Devise.setup do |config|
 
   # Keep user signed in for this duration when remember me is checked.
   config.remember_for = 2.weeks
+
+  config.omniauth :google_oauth2, ENV["GOOGLE_CLIENT_ID"], ENV["GOOGLE_CLIENT_SECRET"], {
+    scope: "email, profile",
+    prompt: "select_account",
+    image_aspect_ratio: "square",
+    image_size: 50
+  }
 end
