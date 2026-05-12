@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   }
   devise_scope :user do
     get "/admin/sign_in", to: "devise/sessions#new"
+    post "/admin/sign_in", to: "devise/sessions#create"
   end
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
