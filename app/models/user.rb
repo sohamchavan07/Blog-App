@@ -8,6 +8,13 @@ class User < ApplicationRecord
   has_many :posts
   has_many :comments
 
+  attribute :bio, :text
+  attribute :twitter_handle, :string
+  attribute :linkedin_url, :string
+  attribute :github_username, :string
+  attribute :avatar_url, :string
+  attribute :full_name, :string
+
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email

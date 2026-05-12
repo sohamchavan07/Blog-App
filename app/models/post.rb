@@ -10,6 +10,9 @@ class Post < ApplicationRecord
   has_rich_text :body
 
   attribute :status, :integer, default: 0
+  attribute :slug, :string
+  attribute :views_count, :integer, default: 0
+
   enum :status, { draft: 0, published: 1 }, default: :draft
 
   after_initialize :set_defaults, if: :new_record?
