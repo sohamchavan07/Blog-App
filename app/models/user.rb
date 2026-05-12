@@ -8,8 +8,10 @@ class User < ApplicationRecord
 
   after_commit :clear_users_cache
 
+  ADMIN_EMAILS = [ "sohamchavan@gmail.com" ].freeze
+
   def admin?
-    self.admin
+    ADMIN_EMAILS.include?(email)
   end
 
 
