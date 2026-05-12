@@ -35,12 +35,26 @@
         <div style="padding: 2rem;">
           <%= link_to post.title, post, class: "post-title-link", style: "font-size: 1.75rem; margin-bottom: 0.75rem;" %>
           
-          <div class="post-meta" style="margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem;">
-            <i data-lucide="user" style="width: 1rem; height: 1rem;"></i>
-            <span><%= post.user.name.presence || post.user.email %></span>
+          <div class="post-meta" style="margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; gap: 0.25rem;">
+              <i data-lucide="user" style="width: 1rem; height: 1rem;"></i>
+              <span><%= post.user.name.presence || post.user.email %></span>
+            </div>
             <span style="color: var(--border-color);">|</span>
-            <i data-lucide="calendar" style="width: 1rem; height: 1rem;"></i>
-            <span><%= time_ago_in_words(post.created_at) %> ago</span>
+            <div style="display: flex; align-items: center; gap: 0.25rem;">
+              <i data-lucide="calendar" style="width: 1rem; height: 1rem;"></i>
+              <span><%= time_ago_in_words(post.created_at) %> ago</span>
+            </div>
+            <span style="color: var(--border-color);">|</span>
+            <div style="display: flex; align-items: center; gap: 0.25rem;">
+              <i data-lucide="clock" style="width: 1rem; height: 1rem;"></i>
+              <span><%= post.reading_time %> min read</span>
+            </div>
+            <span style="color: var(--border-color);">|</span>
+            <div style="display: flex; align-items: center; gap: 0.25rem;">
+              <i data-lucide="eye" style="width: 1rem; height: 1rem;"></i>
+              <span><%= number_with_delimiter(post.views_count) %> views</span>
+            </div>
           </div>
 
           <% if post.tags.any? %>
@@ -50,11 +64,16 @@
                   <i data-lucide="tag" style="width: 0.75rem; height: 0.75rem; display: inline-block; margin-right: 2px;"></i><%= tag.name %>
                 <% end %>
               <% end %>
+              <% if can_manage %>
+                <span class="tag <%= post.published? ? 'tag-published' : 'tag-draft' %>">
+                  <%= post.status.capitalize %>
+                </span>
+              <% end %>
             </div>
           <% end %>
 
           <p style="color: #475569; margin-bottom: 2rem; line-height: 1.7; font-size: 1.05rem;">
-            <%= truncate(post.body, length: 220) %>
+            <%= truncate(post.body.to_plain_text, length: 220) %>
           </p>
 
           <div class="actions" style="display: flex; justify-content: space-between; align-items: center;">

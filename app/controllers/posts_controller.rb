@@ -5,6 +5,10 @@ class PostsController < ApplicationController
   def index
     @posts = Post.includes(:user, :tags).with_attached_cover_image.order(created_at: :desc)
 
+    unless user_signed_in? && current_user.admin?
+      @posts = @posts.published.or(Post.where(user: current_user))
+    end
+
     if params[:query].present?
       query = params[:query]
       if query.start_with?("#")
@@ -19,6 +23,7 @@ class PostsController < ApplicationController
   end
 
   def show
+    @post.increment!(:views_count)
   end
 
   def new
@@ -64,7 +69,7 @@ class PostsController < ApplicationController
   private
 
   def set_post
-    @post = Post.includes(:user, :tags, comments: :user).with_attached_cover_image.find(params[:id])
+    @post = Post.includes(:user, :tags, comments: :user).with_attached_cover_image.friendly.find(params[:id])
   end
 
   def can_manage_post?
@@ -72,6 +77,6 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:title, :body, :tag_list, :cover_image)
+    params.require(:post).permit(:title, :body, :tag_list, :cover_image, :status)
   end
 end

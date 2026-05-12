@@ -22,7 +22,12 @@
 
   <div class="form-group">
     <%= form.label :body, class: "form-label" %>
-    <%= form.text_area :body, class: "form-control", placeholder: "What's on your mind?" %>
+    <%= form.rich_text_area :body, class: "form-control", placeholder: "What's on your mind?" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :status, class: "form-label" %>
+    <%= form.select :status, Post.statuses.keys.map { |s| [s.humanize, s] }, {}, class: "form-control" %>
   </div>
 
   <div class="form-group">

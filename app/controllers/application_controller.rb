@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
   before_action :authorize_request, if: -> { request.format.json? }
+  before_action :configure_permitted_parameters, if: :devise_controller?
 
   def encode_token(payload)
     JWT.encode(payload, ENV["SECRET_KEY_BASE"])
@@ -26,5 +27,11 @@ class ApplicationController < ActionController::Base
     else
       render json: { error: "Missing token" }, status: :unauthorized
     end
+  end
+
+  protected
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:account_update, keys: [ :name, :full_name, :bio, :twitter_handle, :linkedin_url, :github_username, :avatar_url ])
   end
 end

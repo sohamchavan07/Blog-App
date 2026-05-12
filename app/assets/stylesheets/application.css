@@ -191,6 +191,55 @@ textarea.form-control {
   color: white;
 }
 
+.tag-draft {
+  background-color: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
+}
+
+.tag-published {
+  background-color: #dcfce7;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+.trix-content {
+  line-height: 1.6;
+}
+
+.trix-content h1 { font-size: 1.5rem; margin-bottom: 1rem; }
+.trix-content blockquote { border-left: 4px solid var(--border-color); padding-left: 1rem; color: var(--text-muted); }
+.trix-content img { max-width: 100%; height: auto; border-radius: 0.5rem; }
+
+.share-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: all 0.2s;
+  color: white;
+  text-decoration: none;
+}
+
+.share-twitter { background: #1DA1F2; }
+.share-twitter:hover { background: #1a91da; transform: scale(1.1); }
+
+.share-linkedin { background: #0077b5; }
+.share-linkedin:hover { background: #006396; transform: scale(1.1); }
+
+.share-facebook { background: #1877f2; }
+.share-facebook:hover { background: #166fe5; transform: scale(1.1); }
+
+.author-bio {
+  transition: none !important;
+}
+
+.author-bio:hover {
+  transform: none !important;
+}
+
 .actions {
   display: flex;
   gap: 1rem;
