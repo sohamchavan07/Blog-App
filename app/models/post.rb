@@ -30,7 +30,7 @@ class Post < ApplicationRecord
       legacy_body.to_s
     end
     words = content.to_s.split.size
-    [1, (words.to_f / words_per_minute).ceil].max
+    [ 1, (words.to_f / words_per_minute).ceil ].max
   end
 
   def summary
