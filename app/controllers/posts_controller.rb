@@ -18,8 +18,6 @@ class PostsController < ApplicationController
         @posts = @posts.where("title ILIKE ? OR body ILIKE ?", "%#{query}%", "%#{query}%")
       end
     end
-
-    @pagy, @posts = pagy(@posts)
   end
 
   def show
