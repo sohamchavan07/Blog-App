@@ -12,6 +12,7 @@ class Post < ApplicationRecord
   attribute :status, :integer, default: 0
   attribute :slug, :string
   attribute :views_count, :integer, default: 0
+  attribute :legacy_body, :text
 
   enum :status, { draft: 0, published: 1 }, default: :draft
 
@@ -22,8 +23,32 @@ class Post < ApplicationRecord
 
   def reading_time
     words_per_minute = 200
-    words = body.to_plain_text.split.size
-    (words.to_f / words_per_minute).ceil
+    content = begin
+      body.to_plain_text
+    rescue StandardError
+      # Fallback to the legacy column if ActionText is broken or missing
+      legacy_body.to_s
+    end
+    words = content.to_s.split.size
+    [1, (words.to_f / words_per_minute).ceil].max
+  end
+
+  def summary
+    begin
+      # Trigger a load to catch potential database errors early
+      body.to_s
+      body
+    rescue StandardError
+      legacy_body.to_s
+    end
+  end
+
+  def plain_text_summary
+    begin
+      body.to_plain_text
+    rescue StandardError
+      legacy_body.to_s
+    end
   end
 
   private

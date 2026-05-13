@@ -73,7 +73,7 @@
           <% end %>
 
           <p style="color: #475569; margin-bottom: 2rem; line-height: 1.7; font-size: 1.05rem;">
-            <%= truncate(post.body.to_plain_text, length: 220) %>
+            <%= truncate(post.plain_text_summary, length: 220) %>
           </p>
 
           <div class="actions" style="display: flex; justify-content: space-between; align-items: center;">

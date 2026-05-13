@@ -3,7 +3,7 @@ class PostsController < ApplicationController
   before_action :set_post, only: %i[show edit update destroy]
 
   def index
-    @posts = Post.includes(:user, :tags).with_attached_cover_image.order(created_at: :desc)
+    @posts = Post.includes(:user, :tags).with_attached_cover_image.with_rich_text_body.order(created_at: :desc)
 
     unless user_signed_in? && current_user.admin?
       @posts = @posts.published.or(Post.where(user: current_user))
@@ -69,7 +69,7 @@ class PostsController < ApplicationController
   private
 
   def set_post
-    @post = Post.includes(:user, :tags, comments: :user).with_attached_cover_image.friendly.find(params[:id])
+    @post = Post.includes(:user, :tags, comments: :user).with_attached_cover_image.with_rich_text_body.friendly.find(params[:id])
   end
 
   def can_manage_post?
