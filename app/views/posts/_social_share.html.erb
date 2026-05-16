@@ -3,16 +3,21 @@
   
   <%= link_to "https://twitter.com/intent/tweet?text=#{u(post.title)}&url=#{u(post_url(post))}", 
               target: "_blank", class: "share-btn share-twitter", title: "Share on Twitter" do %>
-    <i data-lucide="twitter" style="width: 1.25rem; height: 1.25rem;"></i>
+    <%= image_tag "twitter.svg", style: "width: 1.25rem; height: 1.25rem; filter: brightness(0) invert(1);" %>
   <% end %>
 
   <%= link_to "https://www.linkedin.com/sharing/share-offsite/?url=#{u(post_url(post))}", 
               target: "_blank", class: "share-btn share-linkedin", title: "Share on LinkedIn" do %>
-    <i data-lucide="linkedin" style="width: 1.25rem; height: 1.25rem;"></i>
+    <%= image_tag "iconmonstr-linkedin-3.svg", style: "width: 1.25rem; height: 1.25rem; filter: brightness(0) invert(1);" %>
+  <% end %>
+
+  <%= link_to "https://www.instagram.com/", 
+              target: "_blank", class: "share-btn share-instagram", title: "Follow on Instagram" do %>
+    <%= image_tag "iconmonstr-instagram-11.svg", style: "width: 1.25rem; height: 1.25rem; filter: brightness(0) invert(1);" %>
   <% end %>
 
   <%= link_to "https://www.facebook.com/sharer/sharer.php?u=#{u(post_url(post))}", 
               target: "_blank", class: "share-btn share-facebook", title: "Share on Facebook" do %>
-    <i data-lucide="facebook" style="width: 1.25rem; height: 1.25rem;"></i>
+    <%= image_tag "iconmonstr-facebook-3.svg", style: "width: 1.25rem; height: 1.25rem; filter: brightness(0) invert(1);" %>
   <% end %>
 </div>

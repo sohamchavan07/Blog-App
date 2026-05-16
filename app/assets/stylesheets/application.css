@@ -232,6 +232,9 @@ textarea.form-control {
 .share-facebook { background: #1877f2; }
 .share-facebook:hover { background: #166fe5; transform: scale(1.1); }
 
+.share-instagram { background: #E1306C; }
+.share-instagram:hover { background: #d62976; transform: scale(1.1); }
+
 .author-bio {
   transition: none !important;
 }
