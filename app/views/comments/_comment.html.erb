@@ -1,8 +1,10 @@
-<div id="<%= dom_id comment %>" style="padding: 1rem 0; border-bottom: 1px solid var(--border-color);">
-  <div class="post-meta" style="margin-bottom: 0.5rem;">
-    <strong><%= comment.user.name || comment.user.email %></strong> • <%= time_ago_in_words(comment.created_at) %> ago
+<% cache comment do %>
+  <div id="<%= dom_id comment %>" style="padding: 1rem 0; border-bottom: 1px solid var(--border-color);">
+    <div class="post-meta" style="margin-bottom: 0.5rem;">
+      <strong><%= comment.user.name || comment.user.email %></strong> • <%= time_ago_in_words(comment.created_at) %> ago
+    </div>
+    <div style="color: #334155;">
+      <%= comment.content %>
+    </div>
   </div>
-  <div style="color: #334155;">
-    <%= comment.content %>
-  </div>
-</div>
+<% end %>

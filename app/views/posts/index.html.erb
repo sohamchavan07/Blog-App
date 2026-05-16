@@ -21,8 +21,9 @@
 <% end %>
 
 <% if @posts.any? %>
-  <% @posts.each do |post| %>
-    <%# Fix: Cache key now includes permissions to prevent UI leakage between users %>
+  <% cache [ "posts_index", @posts, user_signed_in? && current_user.admin? ] do %>
+    <% @posts.each do |post| %>
+      <%# Fix: Cache key now includes permissions to prevent UI leakage between users %>
     <% can_manage = user_signed_in? && (current_user == post.user || current_user.admin?) %>
     <% cache [post, can_manage] do %>
       <div class="card" style="padding: 0; margin-bottom: 2.5rem;">
@@ -94,6 +95,7 @@
           </div>
         </div>
       </div>
+      <% end %>
     <% end %>
   <% end %>
 <% else %>

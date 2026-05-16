@@ -91,7 +91,9 @@
   
   <%= turbo_stream_from @post, :comments %>
   <div id="comments">
-    <%= render @post.comments.ordered %>
+    <% cache [@post, "comments"] do %>
+      <%= render @post.comments.ordered %>
+    <% end %>
   </div>
 
   <div style="margin-top: 2rem;">

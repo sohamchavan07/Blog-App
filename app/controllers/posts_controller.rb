@@ -20,10 +20,12 @@ class PostsController < ApplicationController
     end
 
     @pagy, @posts = pagy(@posts)
+    fresh_when @posts, public: true if @posts.any? && params[:query].blank? && !user_signed_in?
   end
 
   def show
-    @post.increment!(:views_count)
+    @post.increment!(:views_count, touch: false)
+    fresh_when @post, public: true
   end
 
   def new
