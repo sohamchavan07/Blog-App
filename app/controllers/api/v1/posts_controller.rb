@@ -7,6 +7,9 @@ module Api
       def index
         @posts = Post.order(created_at: :desc)
 
+        # Filter out draft posts unless the user is the owner or an admin
+        @posts = @posts.where(status: :published).or(Post.where(user: @current_user))
+
         if params[:query].present?
           query = params[:query]
           if query.start_with?("#")
@@ -49,16 +52,24 @@ module Api
       end
 
       def update
-        if @post.update(post_params)
-          render json: @post.as_json(only: [ :id, :title, :body, :created_at ])
+        if @post.user == @current_user || @current_user.admin?
+          if @post.update(post_params)
+            render json: @post.as_json(only: [ :id, :title, :body, :created_at ])
+          else
+            render json: { errors: @post.errors.full_messages }, status: :unprocessable_entity
+          end
         else
-          render json: { errors: @post.errors.full_messages }, status: :unprocessable_entity
+          render json: { error: "Not authorized" }, status: :forbidden
         end
       end
 
       def destroy
-        @post.destroy
-        head :no_content
+        if @post.user == @current_user || @current_user.admin?
+          @post.destroy
+          head :no_content
+        else
+          render json: { error: "Not authorized" }, status: :forbidden
+        end
       end
 
       private

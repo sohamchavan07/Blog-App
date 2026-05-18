@@ -8,11 +8,3 @@ Sentry.init do |config|
   # see https://docs.sentry.io/platforms/ruby/data-management/data-collected/ for more info
   config.send_default_pii = true
 end
-
-begin
-  1 / 0
-rescue ZeroDivisionError => exception
-  Sentry.capture_exception(exception)
-end
-
-Sentry.capture_message("test message")

@@ -8,8 +8,11 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-User.find_or_create_by!(email: "admin@gmail.com") do |user|
-  user.password = "admin@123"
-  user.password_confirmation = "admin@123"
-  user.full_name = "Admin User"
-end
+# Removed hardcoded admin credentials to prevent exposure of sensitive data
+# User.find_or_create_by!(email: "admin@gmail.com") do |user|
+#   user.password = "admin@123"
+#   user.password_confirmation = "admin@123"
+#   user.full_name = "Admin User"
+# end
+
+# Use environment variables or a secure method to create admin users

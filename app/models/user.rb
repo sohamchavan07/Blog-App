@@ -27,10 +27,8 @@ class User < ApplicationRecord
     end
   end
 
-  ADMIN_EMAILS = [ "admin@gmail.com" ].freeze
-
   def admin?
-    ADMIN_EMAILS.include?(email)
+    admin
   end
 
 
