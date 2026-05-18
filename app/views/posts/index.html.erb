@@ -67,7 +67,7 @@
               <% end %>
               <% if can_manage %>
                 <span class="tag <%= post.published? ? 'tag-published' : 'tag-draft' %>">
-                  <%= post.status.capitalize %>
+                  <%= post.status&.capitalize || 'Unknown' %>
                 </span>
               <% end %>
             </div>
