@@ -28,14 +28,13 @@
     <% cache [post, can_manage] do %>
       <div class="card" style="padding: 0; margin-bottom: 2.5rem;">
         <% if post.cover_image.attached? %>
-          <% if post.cover_image.content_type.in?(%w[image/png image/jpeg image/jpg]) %>
-            <%= link_to post do %>
+          <%= link_to post do %>
+            <% if post.cover_image.variable? %>
               <%= image_tag post.cover_image.variant(resize_to_fill: [800, 400, { gravity: "Center" }]), class: "post-cover-image", style: "margin: 0; width: 100%; border-radius: 0;" %>
-            <% end %>
-          <% elsif post.cover_image.content_type == "image/svg+xml" %>
-            <%= link_to post do %>
+            <% else %>
               <%= image_tag post.cover_image, class: "post-cover-image", style: "margin: 0; width: 100%; border-radius: 0;" %>
             <% end %>
+          <% end %>
         <% end %>
 
         <div style="padding: 2rem;">

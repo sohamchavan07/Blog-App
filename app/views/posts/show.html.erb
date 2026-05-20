@@ -1,7 +1,11 @@
 <% cache [@post, current_user&.admin?] do %>
   <article class="card">
     <% if @post.cover_image.attached? %>
-      <%= image_tag @post.cover_image.variant(resize_to_fill: [800, 400, { gravity: "Center" }]), class: "post-cover-image-show" %>
+      <% if @post.cover_image.variable? %>
+        <%= image_tag @post.cover_image.variant(resize_to_fill: [800, 400, { gravity: "Center" }]), class: "post-cover-image-show" %>
+      <% else %>
+        <%= image_tag @post.cover_image, class: "post-cover-image-show" %>
+      <% end %>
     <% end %>
     
     <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
