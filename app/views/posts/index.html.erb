@@ -21,15 +21,14 @@
 <% end %>
 
 <% if @posts.any? %>
-  <% cache [ "posts_index", @posts, user_signed_in? && current_user.admin? ] do %>
-    <% @posts.each do |post| %>
-      <%# Fix: Cache key now includes permissions to prevent UI leakage between users %>
+  <% @posts.each do |post| %>
+    <%# Fix: Cache key now includes permissions to prevent UI leakage between users %>
     <% can_manage = user_signed_in? && (current_user == post.user || current_user.admin?) %>
     <% cache [post, can_manage] do %>
       <div class="card" style="padding: 0; margin-bottom: 2.5rem;">
         <% if post.cover_image.attached? %>
           <%= link_to post do %>
-            <% if post.cover_image.variable? %>
+            <% if post.cover_image.variable? && post.cover_image.content_type != 'image/svg+xml' %>
               <%= image_tag post.cover_image.variant(resize_to_fill: [800, 400, { gravity: "Center" }]), class: "post-cover-image", style: "margin: 0; width: 100%; border-radius: 0;" %>
             <% else %>
               <%= image_tag post.cover_image, class: "post-cover-image", style: "margin: 0; width: 100%; border-radius: 0;" %>
@@ -99,7 +98,6 @@
           </div>
         </div>
       </div>
-      <% end %>
     <% end %>
   <% end %>
 <% else %>
