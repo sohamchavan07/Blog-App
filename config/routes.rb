@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     post "/admin/sign_in", to: "devise/sessions#create"
   end
 
-  resource :profile, only: [:show, :edit, :update]
+  resource :profile, only: [ :show, :edit, :update ]
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
