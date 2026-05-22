@@ -1,0 +1,45 @@
+<div class="profile-container" style="max-width: 600px; margin: 0 auto; padding: 2rem; background: #fff; border-radius: 8px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);">
+  <div style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2rem;">
+    <% if @user.avatar.attached? %>
+      <%= image_tag @user.avatar.variant(resize_to_fill: [100, 100]), style: "width: 100px; height: 100px; border-radius: 50%; object-fit: cover;" %>
+    <% elsif @user.avatar_url.present? %>
+      <%= image_tag @user.avatar_url, style: "width: 100px; height: 100px; border-radius: 50%; object-fit: cover;" %>
+    <% else %>
+      <div style="width: 100px; height: 100px; border-radius: 50%; background: #e5e7eb; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: #9ca3af;">
+        <i data-lucide="user"></i>
+      </div>
+    <% end %>
+
+    <div>
+      <h1 style="margin: 0; font-size: 1.5rem;"><%= @user.full_name.presence || @user.name.presence || "Anonymous User" %></h1>
+      <p style="margin: 0.25rem 0 0 0; color: #6b7280;"><%= @user.email %></p>
+    </div>
+  </div>
+
+  <% if @user.bio.present? %>
+    <div style="margin-bottom: 2rem;">
+      <h3 style="margin-bottom: 0.5rem; font-size: 1.1rem;">About Me</h3>
+      <p style="color: #374151; line-height: 1.5;"><%= @user.bio %></p>
+    </div>
+  <% end %>
+
+  <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+    <% if @user.github_username.present? %>
+      <a href="https://github.com/<%= @user.github_username %>" target="_blank" style="color: #374151; text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+        <i data-lucide="github"></i> GitHub
+      </a>
+    <% end %>
+    <% if @user.twitter_handle.present? %>
+      <a href="https://twitter.com/<%= @user.twitter_handle %>" target="_blank" style="color: #1da1f2; text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+        <i data-lucide="twitter"></i> Twitter
+      </a>
+    <% end %>
+    <% if @user.linkedin_url.present? %>
+      <a href="<%= @user.linkedin_url %>" target="_blank" style="color: #0a66c2; text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+        <i data-lucide="linkedin"></i> LinkedIn
+      </a>
+    <% end %>
+  </div>
+
+  <%= link_to "Edit Profile", edit_profile_path, class: "btn btn-primary" %>
+</div>
