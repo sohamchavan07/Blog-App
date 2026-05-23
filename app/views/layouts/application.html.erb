@@ -43,6 +43,9 @@
         <%= link_to "BlogApp", root_path, class: "logo" %>
         <nav>
           <% if user_signed_in? %>
+            <% unless current_user.premium? || current_user.admin? %>
+              <%= link_to "Upgrade", new_subscription_path, class: "btn btn-outline", style: "border-color: #ffd700; color: #b8860b;" %>
+            <% end %>
             <%= link_to "New Post", new_post_path, class: "btn btn-primary" %>
             <%= link_to "Profile", profile_path, class: "btn btn-outline", style: "margin-left: 10px; margin-right: 10px;" %>
             <%= button_to "Sign Out", destroy_user_session_path, method: :delete, class: "btn btn-outline", style: "display: inline;" %>

@@ -73,3 +73,5 @@ gem "dotenv-rails"
 gem "cloudinary"
 gem "sentry-ruby"
 gem "sentry-rails"
+
+gem "stripe", "~> 19.1"

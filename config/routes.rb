@@ -1,6 +1,10 @@
 require "sidekiq/web"
 
 Rails.application.routes.draw do
+  get "subscriptions/new"
+  get "subscriptions/create"
+  get "subscriptions/success"
+  get "subscriptions/cancel"
   authenticate :user, ->(u) { u.admin? } do
     mount Sidekiq::Web => "/sidekiq"
   end
@@ -29,6 +33,13 @@ Rails.application.routes.draw do
       resources :users, only: [ :index ]
       post "/login", to: "auth#login"
     end
+  end
+
+  post "stripe/webhooks", to: "stripe/webhooks#create"
+
+  resources :subscriptions, only: [ :new, :create ] do
+    get :success, on: :collection
+    get :cancel, on: :collection
   end
 
   resources :posts do

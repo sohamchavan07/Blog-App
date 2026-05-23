@@ -11,11 +11,19 @@
     
     <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
       <h1 class="post-title"><%= @post.title %></h1>
-      <% if can_manage %>
-        <span class="tag <%= @post.published? ? 'tag-published' : 'tag-draft' %>" style="margin-top: 0.5rem;">
-          <%= @post.status.capitalize %>
-        </span>
-      <% end %>
+      <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+        <% if @post.premium? %>
+          <span class="tag" style="background: #ffd700; color: #000; border-color: #ffd700;">
+            <i data-lucide="crown" style="width: 1rem; height: 1rem; margin-right: 0.25rem; display: inline-block; vertical-align: middle;"></i>
+            Premium
+          </span>
+        <% end %>
+        <% if can_manage %>
+          <span class="tag <%= @post.published? ? 'tag-published' : 'tag-draft' %>">
+            <%= @post.status.capitalize %>
+          </span>
+        <% end %>
+      </div>
     </div>
 
     <div class="post-meta" style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
@@ -43,7 +51,27 @@
     <% end %>
 
     <div class="post-body trix-content" style="margin-top: 2rem;">
-      <%= @post.summary %>
+      <% if !@post.premium? || (user_signed_in? && (current_user.premium? || current_user.admin? || current_user == @post.user)) %>
+        <%= @post.summary %>
+      <% else %>
+        <div class="premium-teaser" style="position: relative; overflow: hidden; max-height: 200px; mask-image: linear-gradient(to bottom, black 50%, transparent 100%);">
+          <%= truncate(@post.plain_text_summary, length: 300) %>
+        </div>
+        
+        <div class="card text-center" style="margin-top: 2rem; background: var(--bg-color); border: 2px solid #ffd700; padding: 2rem;">
+          <i data-lucide="lock" style="width: 3rem; height: 3rem; margin: 0 auto 1rem; color: #ffd700;"></i>
+          <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">This is a Premium Post</h2>
+          <p style="color: var(--text-muted); margin-bottom: 1.5rem;">
+            Join our premium community to get full access to this post and many others.
+          </p>
+          <%= link_to "Subscribe Now", new_subscription_path, class: "btn btn-primary", style: "background: #ffd700; border-color: #ffd700; color: #000; font-weight: 700;" %>
+          <% unless user_signed_in? %>
+            <p style="margin-top: 1rem; font-size: 0.875rem;">
+              Already have an account? <%= link_to "Sign in", new_user_session_path, style: "color: var(--primary-color);" %>
+            </p>
+          <% end %>
+        </div>
+      <% end %>
     </div>
 
     <%= render "social_share", post: @post %>

@@ -34,6 +34,10 @@ class User < ApplicationRecord
     admin
   end
 
+  def premium?
+    [ "active", "trialing" ].include?(subscription_status)
+  end
+
 
   private
 
