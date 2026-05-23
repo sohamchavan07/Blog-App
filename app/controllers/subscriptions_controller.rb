@@ -71,16 +71,30 @@ class SubscriptionsController < ApplicationController
     }
 
     # Only include `customer` if we have one; otherwise use customer_email
-    if current_user.stripe_customer_id.present?
-      session_params[:customer] = current_user.stripe_customer_id
+    customer_id = if current_user.respond_to?(:stripe_customer_id)
+      current_user.stripe_customer_id
+    elsif current_user.has_attribute?(:stripe_customer_id)
+      current_user[:stripe_customer_id]
+    else
+      nil
+    end
+
+    if customer_id.present?
+      session_params[:customer] = customer_id
     else
       session_params[:customer_email] = current_user.email
     end
 
     session = Stripe::Checkout::Session.create(session_params)
 
-    # Save customer ID if not already saved
-    current_user.update(stripe_customer_id: session.customer) if current_user.stripe_customer_id.nil?
+    # Save customer ID if not already saved and attribute exists
+    if (current_user.respond_to?(:stripe_customer_id=) || current_user.has_attribute?(:stripe_customer_id)) && (customer_id.nil? || customer_id == "")
+      begin
+        current_user.update(stripe_customer_id: session.customer)
+      rescue NoMethodError, ActiveModel::UnknownAttributeError
+        # attribute doesn't exist or can't be written to; ignore in that case
+      end
+    end
 
     redirect_to session.url, allow_other_host: true
   end
