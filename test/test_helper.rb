@@ -1,4 +1,6 @@
 ENV["RAILS_ENV"] ||= "test"
+# Provide a test Stripe secret key so the initializer can set Stripe.api_key in tests
+ENV["STRIPE_SECRET_KEY"]
 require_relative "../config/environment"
 require "rails/test_help"
 
