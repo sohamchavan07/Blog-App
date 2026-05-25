@@ -3,7 +3,7 @@ class Post < ApplicationRecord
   friendly_id :title, use: :slugged
 
   belongs_to :user
-  has_many :comments, dependent: :destroy
+  has_many :comments, -> { order(created_at: :asc) }, dependent: :destroy
   has_many :taggings, dependent: :destroy
   has_many :tags, through: :taggings
   has_one_attached :cover_image
@@ -54,7 +54,7 @@ class Post < ApplicationRecord
   end
 
   def tag_list
-    tags.pluck(:name).join(", ")
+    tags.map(&:name).join(", ")
   end
 
   def tag_list=(names)

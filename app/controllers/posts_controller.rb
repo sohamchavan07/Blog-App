@@ -20,12 +20,19 @@ class PostsController < ApplicationController
     end
 
     @pagy, @posts = pagy(@posts)
-    fresh_when @posts, public: true if @posts.any? && params[:query].blank? && !user_signed_in?
+
+    # HTTP Caching: Only for public users and non-queried requests
+    if params[:query].blank? && !user_signed_in?
+      nil if stale?(etag: @posts, last_modified: @posts.maximum(:updated_at), public: true)
+    end
   end
 
   def show
+    # Increment views but don't touch updated_at to maintain cache integrity
     @post.increment!(:views_count, touch: false)
-    fresh_when @post, public: true
+
+    # Check if the post is stale. includes are preloaded in set_post
+    stale?(@post, public: @post.published?)
   end
 
   def new

@@ -10,8 +10,17 @@
 
   gtag('config', 'G-MBKTMQEBYG');
 </script>
-    <title><%= content_for(:title) || "Blog App" %></title>
+    <title><%= full_title(yield(:title)) %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "A modern blog platform built with Ruby on Rails." %>">
+    
+    <%# SEO & Social Meta Tags %>
+    <%= yield :meta_tags %>
+    <meta property="og:title" content="<%= full_title(yield(:title)) %>">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<%= request.original_url %>">
+    <meta property="og:description" content="<%= content_for?(:description) ? yield(:description) : "A modern blog platform built with Ruby on Rails." %>">
+    <meta name="twitter:card" content="summary_large_image">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
@@ -20,7 +29,7 @@
     <%= yield :head %>
 
     <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+    <%= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
 
     <link rel="icon" href="/favicon.ico" sizes="any">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">

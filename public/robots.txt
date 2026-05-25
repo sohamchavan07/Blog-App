@@ -1,1 +1,9 @@
-# See https://www.robotstxt.org/robotstxt.html for documentation on how to use the robots.txt file
+# Standard robots.txt for a blog
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /users/
+Disallow: /profiles/edit
+Disallow: /subscriptions/
+
+Sitemap: https://blog.sohamchavan.site/sitemap.xml

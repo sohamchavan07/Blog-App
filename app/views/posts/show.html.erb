@@ -1,3 +1,8 @@
+<% title @post.title %>
+<% content_for :description, truncate(@post.plain_text_summary, length: 160) %>
+<% og_tag :image, url_for(@post.cover_image) if @post.cover_image.attached? %>
+<% twitter_tag :image, url_for(@post.cover_image) if @post.cover_image.attached? %>
+
 <% can_manage = user_signed_in? && (@post.user == current_user || current_user.admin?) %>
 <% cache [@post, can_manage] do %>
   <article class="card">
@@ -131,7 +136,7 @@
   <%= turbo_stream_from @post, :comments %>
   <div id="comments">
     <% cache [@post, "comments"] do %>
-      <%= render @post.comments.ordered %>
+      <%= render partial: "comments/comment", collection: @post.comments, cached: true %>
     <% end %>
   </div>
 
