@@ -13,6 +13,8 @@ class Post < ApplicationRecord
   attribute :slug, :string
   attribute :views_count, :integer, default: 0
   attribute :legacy_body, :text
+  attribute :premium, :boolean, default: false
+
 
   enum :status, { draft: 0, published: 1 }, default: :draft
 
