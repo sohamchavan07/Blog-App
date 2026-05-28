@@ -14,7 +14,7 @@ class SubscriptionsController < ApplicationController
           plan[:id] = env_price
           plan[:amount_cents] = price.unit_amount
           plan[:currency] = price.currency
-        rescue => e
+        rescue StandardError
           # If Stripe API fails, fallback to env amounts
           plan[:id] = nil
         end
@@ -26,7 +26,11 @@ class SubscriptionsController < ApplicationController
       end
 
       # Human-readable formatted price
-      plan[:formatted_price] = sprintf("$%d", plan[:amount_cents] / 100)
+      plan[:formatted_price] = sprintf("$%d", (plan[:amount_cents] / 100).to_i)
+      if key == :yearly
+        plan[:monthly_equivalent] = sprintf("$%d", (plan[:amount_cents] / 1200).to_i)
+      end
+
       @plans[key] = plan
     end
   end
@@ -96,7 +100,7 @@ class SubscriptionsController < ApplicationController
       end
     end
 
-    redirect_to session.url, allow_other_host: true
+    redirect_to session.url, allow_other_host: true, status: :see_other
   end
 
   def success

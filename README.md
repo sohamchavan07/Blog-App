@@ -6,6 +6,7 @@ A robust, scalable blogging platform built with Ruby on Rails and PostgreSQL.
 • [PostgreSQL](https://www.postgresql.org/)
 • [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 • [TailwindCSS](https://tailwindcss.com/)
+• [Stripe](https://stripe.com/)
 • [React](https://reactjs.org/)
 • [Live Demo](https://your-demo-url.com)
 • [Portfolio](https://www.sohamchavan.site/)
@@ -34,6 +35,7 @@ Blog-App is a web app built to solve the need for a seamless and high-performing
 • ✅ JWT API Authentication — Secure API endpoints with JSON Web Tokens.
 • ✅ Service Objects Pattern — Maintainable and scalable business logic.
 • ✅ PostgreSQL Database — Reliable and high-performance data storage.
+• ✅ Stripe Subscriptions — Integrated Stripe Checkout for monthly & yearly subscription plans with webhook support.
 • 🔜 Upcoming: Mobile-responsive polish and richer user interface.
 
 ---
@@ -42,6 +44,7 @@ Blog-App is a web app built to solve the need for a seamless and high-performing
 • Backend: Ruby on Rails
 • Database: PostgreSQL
 • Authentication: Devise & JWT
+• Payments: Stripe (Checkout Sessions + Webhooks)
 
 ---
 
@@ -68,6 +71,7 @@ npm install # if using node
  
 # 3. Set up environment variables
 cp .env.example .env
+# Required Stripe keys (see below)
  
 # 4. Set up the database
 rails db:create db:migrate db:seed
@@ -77,6 +81,18 @@ bin/dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+#### Stripe Environment Variables
+
+| Variable | Description |
+|---|---|
+| `STRIPE_SECRET_KEY` | Your Stripe secret API key |
+| `STRIPE_PUBLISHABLE_KEY` | Your Stripe publishable API key |
+| `STRIPE_WEBHOOK_SECRET` | Webhook signing secret (from `stripe listen`) |
+| `STRIPE_MONTHLY_PRICE_ID` | *(Optional)* Stripe Price ID for the monthly plan |
+| `STRIPE_YEARLY_PRICE_ID` | *(Optional)* Stripe Price ID for the yearly plan |
+| `STRIPE_MONTHLY_AMOUNT_CENTS` | Fallback monthly price in cents (default `500`) |
+| `STRIPE_YEARLY_AMOUNT_CENTS` | Fallback yearly price in cents (default `5000`) |
 
 ---
 
@@ -104,8 +120,9 @@ rails db:migrate
 ---
 
 🗺️ Roadmap
-• MVP — core features live
-• Add authentication
+• ✅ MVP — core features live
+• ✅ Add authentication
+• ✅ Stripe subscription payments
 • Mobile-responsive polish
 • Deploy to production
 

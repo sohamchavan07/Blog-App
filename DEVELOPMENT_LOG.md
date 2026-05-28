@@ -2,7 +2,47 @@
 
 This document tracks the major steps, features, and fixes implemented during the development of the Blog App.
 
+## 2026-05-29: Stripe Subscription Integration
+
+### 1. Stripe Gem & Configuration
+- **Gem Setup**: Added `stripe` gem (`~> 19.1`) to the project.
+- **Initializer**: Created `config/initializers/stripe.rb` to set `Stripe.api_key` from the `STRIPE_SECRET_KEY` environment variable.
+- **Env Validation**: Added `config/initializers/stripe_env_check.rb` to log warnings at boot when required Stripe keys (`STRIPE_SECRET_KEY`, `STRIPE_PUBLISHABLE_KEY`) or the webhook secret are missing.
+
+### 2. Database Migration
+- **Migration**: `AddStripeToUsers` — added the following columns to the `users` table:
+    - `subscription_status` (string)
+    - `stripe_customer_id` (string)
+    - `stripe_subscription_id` (string)
+
+### 3. Subscriptions Controller
+- **Plan Resolution (`new` action)**:
+    - Dynamically fetches plan pricing from the Stripe API using configured Price IDs (`STRIPE_MONTHLY_PRICE_ID`, `STRIPE_YEARLY_PRICE_ID`).
+    - Falls back to environment-variable amounts (`STRIPE_MONTHLY_AMOUNT_CENTS` / `STRIPE_YEARLY_AMOUNT_CENTS`) or sensible defaults if no Price ID is configured.
+- **Checkout Session (`create` action)**:
+    - Builds a Stripe Checkout Session with `mode: "subscription"`.
+    - Uses the Price ID when available; otherwise constructs `price_data` with inline product details.
+    - Associates the session with an existing Stripe Customer when possible; falls back to `customer_email`.
+    - Saves the `stripe_customer_id` back to the user after session creation.
+- **Success / Cancel Callbacks**:
+    - `success` action retrieves the completed session and provisionally updates `stripe_subscription_id` and `subscription_status`.
+    - `cancel` action redirects with a notice.
+
+### 4. Stripe Webhook Handler
+- **Controller**: `Stripe::WebhooksController` — verifies webhook signatures using `STRIPE_WEBHOOK_SECRET` and processes subscription lifecycle events to keep user records in sync.
+
+### 5. Subscription Page UI
+- Created `app/views/subscriptions/new.html.erb` — a premium pricing page displaying monthly and yearly plans with formatted prices.
+- Added success, cancel, and create view templates.
+
+### 6. Routing
+- Added `resources :subscriptions, only: [:new, :create]` with collection routes for `success` and `cancel`.
+
+---
+*Last updated: May 29, 2026*
+
 ## 2026-04-27: Authentication & API Foundation
+
 
 ### 1. Devise Integration & Fixes
 - **Gem Setup**: Added `devise` gem to the project.

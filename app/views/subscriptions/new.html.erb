@@ -1,38 +1,70 @@
-<div class="max-w-2xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-  <div class="text-center">
-    <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-      Upgrade to Premium
-    </h2>
-    <p class="mt-4 text-xl text-gray-600">
-      Get access to exclusive deep dives, detailed guides, and premium-only content.
+<div class="max-w-2xl mx-auto py-12 px-4" data-controller="billing">
+
+  <%# Header %>
+  <div class="pricing-header">
+    <p class="pricing-eyebrow">Membership</p>
+    <h1 class="pricing-title">Invest in great writing</h1>
+    <p class="pricing-subtitle">
+      Unlock premium articles, weekly deep dives, and join a community of independent thinkers.
     </p>
   </div>
 
-  <div class="mt-12 space-y-4 sm:mt-16 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-6 lg:max-w-4xl lg:mx-auto xl:max-w-none xl:mx-0 xl:grid-cols-2">
-    <!-- Monthly Plan -->
-    <div class="border border-gray-200 rounded-lg shadow-sm divide-y divide-gray-200">
-      <div class="p-6">
-        <h3 class="text-lg leading-6 font-medium text-gray-900">Monthly</h3>
-        <p class="mt-4 text-sm text-gray-500">The perfect way to support the blog monthly.</p>
-        <p class="mt-8">
-          <span class="text-4xl font-extrabold text-gray-900"><%= @plans[:monthly][:formatted_price] %></span>
-          <span class="text-base font-medium text-gray-500">/mo</span>
-        </p>
-        <%= button_to "Subscribe Monthly", subscriptions_path(plan: "monthly"), data: { turbo: false }, class: "mt-8 block w-full bg-indigo-600 border border-transparent rounded-md py-2 text-sm font-semibold text-white text-center hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
-      </div>
-    </div>
-
-    <!-- Yearly Plan -->
-    <div class="border border-gray-200 rounded-lg shadow-sm divide-y divide-gray-200">
-      <div class="p-6">
-        <h3 class="text-lg leading-6 font-medium text-gray-900">Yearly</h3>
-        <p class="mt-4 text-sm text-gray-500">Get two months free with an annual subscription.</p>
-        <p class="mt-8">
-          <span class="text-4xl font-extrabold text-gray-900"><%= @plans[:yearly][:formatted_price] %></span>
-          <span class="text-base font-medium text-gray-500">/yr</span>
-        </p>
-        <%= button_to "Subscribe Yearly", subscriptions_path(plan: "yearly"), data: { turbo: false }, class: "mt-8 block w-full bg-indigo-600 border border-transparent rounded-md py-2 text-sm font-semibold text-white text-center hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
-      </div>
-    </div>
+  <%# Billing toggle %>
+  <div class="billing-toggle-container">
+    <span class="billing-label billing-label--active" data-billing-target="monthlyToggle">Monthly</span>
+    <label class="switch">
+      <input type="checkbox" data-action="change->billing#toggle">
+      <span class="slider"></span>
+    </label>
+    <span class="billing-label" data-billing-target="yearlyToggle">
+      Yearly
+      <span class="badge-save">Save 20%</span>
+    </span>
   </div>
+
+  <%# Monthly Plan %>
+  <div class="pricing-card" data-billing-target="monthlyPlan">
+    <p class="plan-label">Pro Monthly</p>
+    <div class="price-row">
+      <span class="price-amount"><%= @plans[:monthly][:formatted_price] %></span>
+      <span class="price-period">/ month</span>
+    </div>
+    <p class="price-subline"></p>
+    <ul class="features-list">
+      <li><i data-lucide="check-circle-2"></i> Full access to all premium posts</li>
+      <li><i data-lucide="check-circle-2"></i> Weekly deep-dive newsletter</li>
+      <li><i data-lucide="check-circle-2"></i> Ad-free reading experience</li>
+      <li><i data-lucide="check-circle-2"></i> Support independent writing</li>
+    </ul>
+    <%= button_to "Subscribe monthly", subscriptions_path(plan: "monthly"),
+        class: "btn btn-primary btn--full",
+        data: { turbo: false } %>
+  </div>
+
+  <%# Yearly Plan %>
+  <div class="pricing-card pricing-card--featured hidden" data-billing-target="yearlyPlan">
+    <span class="most-popular-badge">Most popular</span>
+    <p class="plan-label">Pro Yearly</p>
+    <div class="price-row">
+      <span class="price-amount"><%= @plans[:yearly][:formatted_price] %></span>
+      <span class="price-period">/ year</span>
+    </div>
+    <p class="price-subline">2 months free — equivalent to <%= @plans[:yearly][:monthly_equivalent] %>/mo</p>
+    <ul class="features-list">
+      <li><i data-lucide="check-circle-2"></i> Everything in Monthly</li>
+      <li><i data-lucide="check-circle-2"></i> Early access to new features</li>
+      <li><i data-lucide="check-circle-2"></i> Exclusive annual community call</li>
+      <li><i data-lucide="check-circle-2"></i> Priority support</li>
+    </ul>
+    <%= button_to "Subscribe yearly", subscriptions_path(plan: "yearly"),
+        class: "btn btn-primary btn--full",
+        data: { turbo: false } %>
+  </div>
+
+  <%# Footer trust line %>
+  <p class="pricing-footer-note">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    Secure payments via <strong>Stripe</strong> &nbsp;·&nbsp; Cancel anytime
+  </p>
+
 </div>
