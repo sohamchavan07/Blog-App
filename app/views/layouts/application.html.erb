@@ -47,7 +47,7 @@
   </head>
 
   <body>
-    <header>
+    <header class="<%= 'landing-header' if controller_name == 'pages' && action_name == 'home' %>">
       <div class="container">
         <%= link_to "BlogApp", root_path, class: "logo" %>
         <nav>
@@ -66,14 +66,24 @@
       </div>
     </header>
 
-    <main class="container">
-      <% flash.each do |type, message| %>
-        <div class="flash flash-<%= type %>">
-          <%= message %>
-        </div>
+    <main class="<%= 'container' unless controller_name == 'pages' && action_name == 'home' %>">
+      <% if controller_name == 'pages' && action_name == 'home' %>
+        <% flash.each do |type, message| %>
+          <div class="container" style="margin-top: 1rem;">
+            <div class="flash flash-<%= type %>">
+              <%= message %>
+            </div>
+          </div>
+        <% end %>
+        <%= yield %>
+      <% else %>
+        <% flash.each do |type, message| %>
+          <div class="flash flash-<%= type %>">
+            <%= message %>
+          </div>
+        <% end %>
+        <%= yield %>
       <% end %>
-
-    <%= yield %>
     </main>
 
     <script>
