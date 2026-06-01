@@ -665,7 +665,15 @@
     to   { transform: translateX(-50%); }
   }
 
-  /* ── RESPONSIVE ── */
+  /* Nav button_to form fix – keep Sign Out inline with other nav items */
+  .nav-cta form {
+    display: inline-flex;
+    margin: 0;
+    padding: 0;
+  }
+  .nav-cta form .btn {
+    margin: 0;
+  }
   @media (max-width: 1024px) {
     .hero { grid-template-columns: 1fr; }
     .hero-right { min-height: 480px; }
@@ -702,8 +710,12 @@
     <li><a href="<%= new_subscription_path %>">Membership</a></li>
   </ul>
   <div class="nav-cta">
-    <a href="<%= new_user_session_path %>" class="btn btn-ghost">Sign in</a>
-    <a href="<%= new_user_registration_path %>" class="btn btn-primary">Get started</a>
+    <% if user_signed_in? %>
+      <a href="<%= posts_path %>" class="btn btn-ghost">Dashboard</a>
+      <%= button_to "Sign Out", destroy_user_session_path, method: :delete, class: "btn btn-primary", form: { data: { turbo: false } } %>
+    <% end %>
+    <a href="<%= new_user_session_path %>" data-turbo="false" class="btn btn-ghost">Sign in</a>
+    <a href="<%= new_user_registration_path %>" data-turbo="false" class="btn btn-primary">Get started</a>
   </div>
 </nav>
 
@@ -719,8 +731,13 @@
       A beautifully refined space where writers find their audience and readers discover ideas that linger. No noise — only craft.
     </p>
     <div class="hero-actions">
-      <a href="<%= posts_path %>" class="btn btn-primary btn-large">Start Reading Free</a>
-      <a href="<%= new_user_registration_path %>" class="btn btn-ghost btn-large">Begin Writing</a>
+      <% if user_signed_in? %>
+        <a href="<%= posts_path %>" class="btn btn-primary btn-large">Browse Stories</a>
+        <a href="<%= new_post_path %>" class="btn btn-ghost btn-large">Write a Post</a>
+      <% else %>
+        <a href="<%= new_user_registration_path %>" class="btn btn-primary btn-large">Get Started Free</a>
+        <a href="<%= new_user_session_path %>" class="btn btn-ghost btn-large">Sign In</a>
+      <% end %>
     </div>
     <div class="hero-stat-row">
       <div class="hero-stat">
@@ -939,8 +956,13 @@
       Join a community of writers who care about the craft. No algorithm. No noise. Just your words and the people who want to read them.
     </p>
     <div class="cta-actions">
-      <a href="<%= new_user_registration_path %>" class="btn btn-primary btn-large">Create Free Account</a>
-      <a href="<%= posts_path %>" class="btn btn-outline-cream btn-large">Browse Stories</a>
+      <% if user_signed_in? %>
+        <a href="<%= new_post_path %>" class="btn btn-primary btn-large">Start Writing</a>
+        <a href="<%= posts_path %>" class="btn btn-outline-cream btn-large">Browse Stories</a>
+      <% else %>
+        <a href="<%= new_user_registration_path %>" class="btn btn-primary btn-large">Create Free Account</a>
+        <a href="<%= new_user_session_path %>" class="btn btn-outline-cream btn-large">Sign In</a>
+      <% end %>
     </div>
     <p class="cta-footnote">No credit card required · Free forever plan available</p>
   </div>
