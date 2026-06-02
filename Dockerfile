@@ -26,4 +26,4 @@ ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # Temporary fix to initialize the free database schema
 EXPOSE 3000
-CMD ["sh", "-c", "./bin/rails db:schema:load && ./bin/thrust ./bin/rails server -b 0.0.0.0"]
+CMD ["sh", "-c", "./bin/rails db:migrate && ./bin/thrust ./bin/rails server -b 0.0.0.0"]
