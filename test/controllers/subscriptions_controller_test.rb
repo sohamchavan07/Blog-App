@@ -1,26 +1,27 @@
+# test/controllers/subscriptions_controller_test.rb
 require "test_helper"
 
 class SubscriptionsControllerTest < ActionDispatch::IntegrationTest
-  setup do
-    sign_in users(:one)
-  end
   test "should get new" do
-    get subscriptions_new_url
+    get new_subscription_url
     assert_response :success
   end
 
-  test "should get create" do
-    get subscriptions_create_url
-    assert_response :redirect
-  end
-
   test "should get success" do
-    get subscriptions_success_url
-    assert_response :redirect
+    get success_subscriptions_url
+    assert_response :success
   end
 
   test "should get cancel" do
-    get subscriptions_cancel_url
+    get cancel_subscriptions_url
+    assert_response :success
+  end
+
+  test "should execute create" do
+    # In RESTful routing, creating a resource uses a POST request, not a GET
+    post subscriptions_url, params: {}
+
+    # Adjust this assertion depending on whether your controller redirects to Stripe/Success or renders a page
     assert_response :redirect
   end
 end
