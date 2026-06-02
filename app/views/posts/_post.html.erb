@@ -5,7 +5,7 @@
   <% if post.cover_image.attached? %>
     <%= link_to post do %>
       <% if post.cover_image.variable? && post.cover_image.content_type != 'image/svg+xml' %>
-        <%= image_tag post.cover_image.variant(resize_to_fill: [800, 400, { gravity: "Center" }]), class: "post-cover-image", style: "margin: 0; width: 100%; border-radius: 0;" %>
+        <%= image_tag post.cover_image.variant(resize_to_limit: [1200, 600]), class: "post-cover-image", style: "margin: 0; width: 100%; border-radius: 0;" %>
       <% else %>
         <%= image_tag post.cover_image, class: "post-cover-image", style: "margin: 0; width: 100%; border-radius: 0;" %>
       <% end %>
