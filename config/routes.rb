@@ -2,7 +2,7 @@
 require "sidekiq/web"
 
 Rails.application.routes.draw do
-  # 1. Protected Sidekiq Dashboard
+ # 1. Protected Sidekiq Dashboard
  authenticate :user do
   mount Sidekiq::Web => "/sidekiq"
 end
