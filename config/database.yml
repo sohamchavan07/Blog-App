@@ -24,15 +24,15 @@ development:
   primary:
     <<: *default
     database: blog_app_development
-    username: postgres
-    # host: localhost
-    # port: 5432
+    username: shdc02
+    host: localhost
+    port: 5432
   cache:
     <<: *default
     database: blog_app_development
-    username: postgres
-    # host: localhost
-    # port: 5432
+    username: shdc02
+    host: localhost
+    port: 5432
     migrations_paths: db/cache_migrate
 
 
@@ -60,7 +60,9 @@ development:
 test:
   <<: *default
   database: blog_app_test
-  username: postgres
+  username: shdc02
+  host: localhost
+  port: 5432
 
 
 # As with config/credentials.yml, you never want to store sensitive information,

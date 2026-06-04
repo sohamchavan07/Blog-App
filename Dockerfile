@@ -24,6 +24,6 @@ RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 # Entrypoint prepares the database.
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
-# Start server with thrust
+# Start server, forcing the tracking version for solid cache if it got skipped
 EXPOSE 3000
-CMD ["./bin/thrust", "./bin/rails", "server", "-b", "0.0.0.0"]
+CMD bundle exec rails runner "begin; ActiveRecord::Base.connection.execute(\"INSERT INTO schema_migrations (version) VALUES ('20260428131100')\"); rescue; end" && bundle exec rails db:migrate && ./bin/thrust ./bin/rails server -b 0.0.0.0

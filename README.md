@@ -8,7 +8,7 @@ A robust, scalable blogging platform built with Ruby on Rails and PostgreSQL.
 • [TailwindCSS](https://tailwindcss.com/)
 • [Stripe](https://stripe.com/)
 • [React](https://reactjs.org/)
-• [Live Demo](https://your-demo-url.com)
+• [Live Demo](https://blog.sohamchavan.site/)
 • [Portfolio](https://www.sohamchavan.site/)
 
 ---
