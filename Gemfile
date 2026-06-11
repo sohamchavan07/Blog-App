@@ -41,7 +41,7 @@ gem "devise"
 gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
 gem "jwt"
-gem "pagy", "~> 9.0"
+gem "pagy", "~> 43.5"
 gem "friendly_id", "~> 5.5"
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
