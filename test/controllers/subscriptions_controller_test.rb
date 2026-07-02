@@ -14,19 +14,29 @@ class SubscriptionsControllerTest < ActionDispatch::IntegrationTest
 
   test "should get success" do
     get success_subscriptions_url
+<<<<<<< Updated upstream
     assert_redirected_to root_url
+=======
+    assert_redirected_to root_path
+>>>>>>> Stashed changes
   end
 
   test "should get cancel" do
     get cancel_subscriptions_url
+<<<<<<< Updated upstream
     assert_redirected_to root_url
+=======
+    assert_redirected_to root_path
+>>>>>>> Stashed changes
   end
 
-  test "should execute create" do
-    # In RESTful routing, creating a resource uses a POST request, not a GET
-    post subscriptions_url, params: {}
+  test "should execute create monthly" do
+    post subscriptions_url, params: { plan: "monthly" }
+    assert_redirected_to "https://example.com/checkout"
+  end
 
-    # Adjust this assertion depending on whether your controller redirects to Stripe/Success or renders a page
-    assert_response :redirect
+  test "should execute create yearly" do
+    post subscriptions_url, params: { plan: "yearly" }
+    assert_redirected_to "https://example.com/checkout"
   end
 end
