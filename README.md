@@ -115,7 +115,7 @@ rails db:migrate
 ---
 
 📸 Screenshots
-*(Add your screenshots here)*
+<img width="1343" height="617" alt="Screenshot from 2026-07-03 23-58-51" src="https://github.com/user-attachments/assets/20e48cf3-9d89-446e-af4e-f169230c0b4d" />
 
 ---
 
