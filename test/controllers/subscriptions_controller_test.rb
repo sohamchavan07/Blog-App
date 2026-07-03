@@ -14,20 +14,12 @@ class SubscriptionsControllerTest < ActionDispatch::IntegrationTest
 
   test "should get success" do
     get success_subscriptions_url
-<<<<<<< Updated upstream
-    assert_redirected_to root_url
-=======
     assert_redirected_to root_path
->>>>>>> Stashed changes
   end
 
   test "should get cancel" do
     get cancel_subscriptions_url
-<<<<<<< Updated upstream
-    assert_redirected_to root_url
-=======
     assert_redirected_to root_path
->>>>>>> Stashed changes
   end
 
   test "should execute create monthly" do
