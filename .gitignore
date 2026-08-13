@@ -32,3 +32,23 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+# Node / frontend
+/node_modules/
+/dist/
+
+# macOS
+.DS_Store
+
+# dotenv variants (already covered by /env* but be explicit)
+.env
+.env.*
+
+# Yarn / npm
+yarn-error.log
+package-lock.json
+
+# Coverage / build artifacts
+/coverage/
+/public/packs
+/public/packs-test
