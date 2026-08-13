@@ -21,7 +21,9 @@ class Post < ApplicationRecord
   after_initialize :set_defaults, if: :new_record?
 
   validates :title, presence: true
+  validates :title, length: { maximum: 200 }
   validates :body, presence: true
+  validates :slug, uniqueness: true, allow_blank: true
 
   def reading_time
     words_per_minute = 200

@@ -1,158 +1,111 @@
-🚀 Blog-App
-A robust, scalable blogging platform built with Ruby on Rails and PostgreSQL.
+# Blog-App
 
-• [Ruby](https://www.ruby-lang.org/)
-• [Rails](https://rubyonrails.org/)
-• [PostgreSQL](https://www.postgresql.org/)
-• [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-• [TailwindCSS](https://tailwindcss.com/)
-• [Stripe](https://stripe.com/)
-• [React](https://reactjs.org/)
-• [Live Demo](https://blog.sohamchavan.site/)
-• [Portfolio](https://www.sohamchavan.site/)
+A robust blogging platform built with Ruby on Rails and PostgreSQL.
 
----
+## Tech stack
+- Ruby (>= 3.x)
+- Rails (>= 8.x)
+- PostgreSQL
+- JavaScript (importmap / optional Node build tooling)
+- TailwindCSS, Stimulus, Devise, Stripe
 
-📌 Table of Contents
-• [About](#-about)
-• [Features](#-features)
-• [Tech Stack](#-tech-stack)
-• [Getting Started](#-getting-started)
-• [Usage](#-usage)
-• [Screenshots](#-screenshots)
-• [Roadmap](#-roadmap)
-• [Contributing](#-contributing)
-• [Author](#-author)
-
----
-
-📖 About
-Blog-App is a web app built to solve the need for a seamless and high-performing blogging platform. It is designed for developers, writers, and content creators, and focuses on core values like speed, simplicity, and security with robust API authentication.
-
----
-
-✨ Features
-• ✅ JWT API Authentication — Secure API endpoints with JSON Web Tokens.
-• ✅ Service Objects Pattern — Maintainable and scalable business logic.
-• ✅ PostgreSQL Database — Reliable and high-performance data storage.
-• ✅ Stripe Subscriptions — Integrated Stripe Checkout for monthly & yearly subscription plans with webhook support.
-• 🔜 Upcoming: Mobile-responsive polish and richer user interface.
-
----
-
-🛠️ Tech Stack
-• Backend: Ruby on Rails
-• Database: PostgreSQL
-• Authentication: Devise & JWT
-• Payments: Stripe (Checkout Sessions + Webhooks)
-
----
-
-🚀 Getting Started
-Prerequisites
-
-```text
-ruby  >= 3.x
-rails >= 8.x
-node  >= 18.x
-postgresql >= 11
-```
-
-Installation
+## Quickstart (local development)
+1. Clone the repo
 
 ```bash
-# 1. Clone the repo
 git clone https://github.com/sohamchavan07/Blog-App.git
 cd Blog-App
- 
-# 2. Install dependencies
+```
+
+2. Install dependencies
+
+```bash
 bundle install
-npm install # if using node
- 
-# 3. Set up environment variables
+bin/setup || (yarn install || npm install)
+```
+
+3. Environment
+
+Copy example env and add required keys (Stripe keys, DB URL, secrets):
+
+```bash
 cp .env.example .env
-# Required Stripe keys (see below)
- 
-# 4. Set up the database
+# edit .env and add STRIPE_* and other secrets
+```
+
+4. Database
+
+```bash
 rails db:create db:migrate db:seed
- 
-# 5. Start the dev server
+```
+
+5. Start the app
+
+```bash
 bin/dev
+# or: rails server
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open http://localhost:3000
 
-#### Stripe Environment Variables
+## Tests
 
-| Variable | Description |
-|---|---|
-| `STRIPE_SECRET_KEY` | Your Stripe secret API key |
-| `STRIPE_PUBLISHABLE_KEY` | Your Stripe publishable API key |
-| `STRIPE_WEBHOOK_SECRET` | Webhook signing secret (from `stripe listen`) |
-| `STRIPE_MONTHLY_PRICE_ID` | *(Optional)* Stripe Price ID for the monthly plan |
-| `STRIPE_YEARLY_PRICE_ID` | *(Optional)* Stripe Price ID for the yearly plan |
-| `STRIPE_MONTHLY_AMOUNT_CENTS` | Fallback monthly price in cents (default `500`) |
-| `STRIPE_YEARLY_AMOUNT_CENTS` | Fallback yearly price in cents (default `5000`) |
-
----
-
-🚀 Production
-To run the application in a production environment, use the following command:
+Run the test suite with:
 
 ```bash
-bundle exec puma -e production
+bin/rails test
+# or if using RSpec: bundle exec rspec
 ```
 
----
+## Common commands
+- Install gems: `bundle install`
+- Install JS deps: `yarn install` or `npm install`
+- Run migrations: `rails db:migrate`
+- Seed: `rails db:seed`
+- Start dev server: `bin/dev` or `rails server`
 
-💡 Usage
-```bash
-# Example command or workflow
-rails generate scaffold Post title:string body:text
-rails db:migrate
-```
-
----
-
-📸 Screenshots
+## Screenshots
 <img width="1343" height="617" alt="Screenshot from 2026-07-29 20-51-16" src="/screenshots/Screenshot from 2026-07-29 20-51-16.png" />
 <img width="1343" height="617" alt="Screenshot from 2026-07-29 20-47-48" src="/screenshots/Screenshot from 2026-07-29 20-47-48.png" />
 <img width="1343" height="617" alt="Screenshot from 2026-07-29 20-37-04" src="/screenshots/Screenshot from 2026-07-29 20-37-04.png" />
 
+## Environment variables (examples)
+- `DATABASE_URL` or standard `config/database.yml` settings
+- `RAILS_MASTER_KEY` or `config/master.key`
+- `STRIPE_SECRET_KEY`, `STRIPE_PUBLISHABLE_KEY`, `STRIPE_WEBHOOK_SECRET`
+
+## Ignoring and cleaning local files
+This repo ignores common local/system files in `.gitignore` (e.g. `.env`, `node_modules`, `/dist`, `log/*`, `tmp/*`, `.DS_Store`). If you have any tracked files that should be ignored, run:
+
+```bash
+git rm -r --cached node_modules dist public/packs
+git rm --cached .env
+git commit -m "chore: remove tracked build and env files"
+```
+
+## Contributing
+Fork, create a branch, make changes, run tests, open a PR.
+
+## License
+MIT
+
 ---
+If you want, I can run the git commands to remove tracked clutter now.
 
-🗺️ Roadmap
-• ✅ MVP — core features live
-• ✅ Add authentication
-• ✅ Stripe subscription payments
-• Mobile-responsive polish
-• Deploy to production
+## Contributing
 
----
+Contributions are welcome — please follow the guidelines in [CONTRIBUTING.md](CONTRIBUTING.md) and run the test suite before opening a PR.
 
-🤝 Contributing
-Contributions, issues and feature requests are welcome!
-
+A quick workflow:
 1. Fork the repo
-2. Create your branch: `git checkout -b feature/your-feature`
-3. Commit your changes: `git commit -m 'feat: add your feature'`
-4. Push to the branch: `git push origin feature/your-feature`
-5. Open a Pull Request
+2. Create a branch: `git checkout -b feature/your-feature`
+3. Commit changes and run tests
+4. Push and open a Pull Request
 
----
+## Author
 
-👤 Author
-Soham Chavan
+Soham Chavan — Portfolio: https://www.sohamchavan.site/
 
-• [Portfolio](https://www.sohamchavan.site/)
-• [LinkedIn](https://www.linkedin.com/in/sohamchavan07/)
-• [X](https://x.com/soham_chavan07)
+## License
 
----
-
-📄 License
-This project is licensed under the [MIT License](./LICENSE).
-
----
-
-Made with ❤️ by Soham Chavan
+This project is licensed under the MIT License — see [LICENSE](LICENSE) for details.

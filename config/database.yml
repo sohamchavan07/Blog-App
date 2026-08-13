@@ -15,4 +15,10 @@ test:
 
 production:
   <<: *default
-  url: <%= ENV["DATABASE_URL"] %>
+  url: <%= ENV["DATABASE_URL"] || ENV["PROD_DATABASE_URL"] %>
+  # If using explicit production credentials instead of DATABASE_URL, uncomment and set the values below:
+  # host: <%= ENV["DB_HOST"] %>
+  # username: <%= ENV["DB_USERNAME"] %>
+  # password: <%= ENV["DB_PASSWORD"] %>
+  # database: <%= ENV["DB_NAME"] %>
+  # sslmode: <%= ENV["DB_SSLMODE"] || "require" %>
