@@ -115,59 +115,6 @@ header .container {
   border-color: var(--text-muted);
 }
 
-/* button_to wraps the button in a <form>; make it block so the button fills the width */
-.auth-links form {
-  display: block !important;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-.btn-oauth {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.625rem;
-  width: 100%;
-  padding: 0.7rem 1.2rem;
-  border: 1.5px solid var(--border-color);
-  border-radius: 10px;
-  background: #ffffff;
-  color: var(--text-main);
-  font-weight: 600;
-  font-size: 0.9375rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.06);
-  text-decoration: none;
-}
-
-.btn-oauth:hover {
-  border-color: var(--primary-color);
-  background: #f5f3ff;
-  box-shadow: 0 4px 12px 0 rgb(99 102 241 / 0.12);
-  transform: translateY(-1px);
-}
-
-.oauth-divider {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  color: var(--text-muted);
-  font-size: 0.8125rem;
-  font-weight: 500;
-  margin: 0.25rem 0;
-}
-
-.oauth-divider::before,
-.oauth-divider::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: var(--border-color);
-}
-
-
 .btn-danger {
   color: var(--danger);
 }
@@ -403,47 +350,163 @@ textarea.form-control {
   width: 100%;
 }
 
+.auth-link:hover {
+  color: var(--primary-color);
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.remember-me input {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--primary-color);
+}
+
+.auth-inline-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.auth-inline-link {
+  font-size: 0.875rem;
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.auth-inline-link:hover {
+  text-decoration: underline;
+}
+
+.auth-subtle {
+  margin-top: 0.9rem;
+  margin-bottom: 0;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+}
+
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input-wrapper .form-control {
+  padding-right: 2.5rem;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+  z-index: 10;
+}
+
+.password-toggle:hover {
+  color: var(--primary-color);
+}
+
+.password-toggle i,
+.password-toggle svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* OAuth — full-width, centered like primary auth button */
 .oauth-section {
   width: 100%;
-  margin-bottom: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.oauth-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  margin: 0 0 1rem;
+  width: 100%;
+}
+
+.oauth-divider span {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.oauth-divider::before,
+.oauth-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border-color);
 }
 
 .oauth-buttons {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
   width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
-/* button_to wraps the button in a <form>; center the button within the form */
-.auth-links form {
-  display: block !important;
-  text-align: center !important;
-  width: 100% !important;
-  margin: 0 auto !important;
+.oauth-form {
+  display: block;
+  width: 100%;
+  margin: 0;
   padding: 0;
 }
 
-.btn-oauth {
-  display: inline-flex !important;
+.auth-card .btn.btn-oauth {
+  display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.625rem;
   width: 100%;
-  max-width: 320px;
-  margin: 0 auto !important;
-  padding: 0.7rem 1.5rem;
+  box-sizing: border-box;
+  padding: 0.7rem 1.2rem;
   border: 1.5px solid var(--border-color);
   border-radius: 10px;
   background: #ffffff;
   color: var(--text-main);
   font-weight: 600;
   font-size: 0.9375rem;
+  line-height: 1.25;
   cursor: pointer;
   transition: all 0.2s ease;
   box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.06);
   text-decoration: none;
+  text-transform: none;
+  letter-spacing: normal;
+  white-space: nowrap;
+}
+
+.auth-card .btn.btn-oauth:hover {
+  border-color: var(--primary-color);
+  background: #f5f3ff;
+  box-shadow: 0 4px 12px 0 rgb(99 102 241 / 0.12);
+  transform: translateY(-1px);
+}
+
+.auth-card .btn.btn-oauth svg {
+  flex-shrink: 0;
 }
 
 /* Utilities */

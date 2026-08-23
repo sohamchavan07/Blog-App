@@ -5,7 +5,7 @@ Rails.application.routes.draw do
  # 1. Protected Sidekiq Dashboard
  authenticate :user do
   mount Sidekiq::Web => "/sidekiq"
-end
+ end
 
   # 2. Authentication Engines
   devise_for :users, controllers: {
@@ -13,7 +13,7 @@ end
   }
   devise_scope :user do
     get "/admin/sign_in", to: "devise/sessions#new"
-    post "/admin/sign_in", to: "devise/sessions#create"
+    post "/admin", to: "devise/sessions#create"
   end
 
   # 3. Core SaaS Resources
@@ -45,4 +45,11 @@ end
 
   # 6. Application Root
   root "pages#home"
+
+  # 7. Static pages
+  get "/about", to: "pages#about", as: :about
+  get "/careers", to: "pages#careers", as: :careers
+  get "/api", to: "pages#api", as: :api
+  get "/guidelines", to: "pages#guidelines", as: :guidelines
+  get "/help", to: "pages#help_center", as: :help_center
 end
