@@ -84,15 +84,6 @@ git commit -m "chore: remove tracked build and env files"
 ```
 
 ## Contributing
-Fork, create a branch, make changes, run tests, open a PR.
-
-## License
-MIT
-
----
-If you want, I can run the git commands to remove tracked clutter now.
-
-## Contributing
 
 Contributions are welcome — please follow the guidelines in [CONTRIBUTING.md](CONTRIBUTING.md) and run the test suite before opening a PR.
 
