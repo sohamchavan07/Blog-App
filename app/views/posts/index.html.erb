@@ -1,46 +1,73 @@
-<div class="index-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1.5rem;">
-  <h1 style="font-size: 2.5rem; font-weight: 800; margin: 0; letter-spacing: -0.025em;">Recent Posts</h1>
-  
-  <%= form_with url: posts_path, method: :get, local: true, class: "search-form", style: "display: flex; gap: 0.5rem;" do |f| %>
-    <div style="position: relative; display: flex; align-items: center;">
-      <i data-lucide="search" style="position: absolute; left: 0.75rem; width: 1.25rem; height: 1.25rem; color: var(--text-muted);"></i>
-      <%= f.text_field :query, value: params[:query], placeholder: "Search posts...", class: "form-control", style: "width: 280px; padding: 0.6rem 0.75rem 0.6rem 2.5rem;" %>
-    </div>
-    <%= f.submit "Search", class: "btn btn-primary" %>
-  <% end %>
-</div>
+<% title "Posts" %>
 
-<% if params[:query].present? %>
-  <div style="margin-bottom: 2rem; display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted); font-weight: 500;">
-    <i data-lucide="filter" style="width: 1rem; height: 1rem;"></i>
-    Showing results for "<span style="color: var(--text-main);"><%= params[:query] %></span>" 
-    <%= link_to posts_path, style: "margin-left: 0.5rem; text-decoration: none; color: var(--primary-color); display: flex; align-items: center; gap: 0.25rem;" do %>
-      <i data-lucide="x-circle" style="width: 1rem; height: 1rem;"></i> Clear
+<div class="posts-index">
+  <header class="posts-hero">
+    <div class="posts-hero__content">
+      <p class="posts-hero__eyebrow">The BlogApp Journal</p>
+      <h1 class="posts-hero__title">Stories &amp; Ideas</h1>
+      <p class="posts-hero__subtitle">Discover thoughtful writing from our community — tutorials, reflections, and everything in between.</p>
+    </div>
+
+    <%= form_with url: posts_path, method: :get, local: true, class: "posts-search" do |f| %>
+      <div class="posts-search__field">
+        <i data-lucide="search" class="posts-search__icon"></i>
+        <%= f.text_field :query, value: params[:query], placeholder: "Search by title, keyword, or #tag...", class: "posts-search__input" %>
+      </div>
+      <%= f.submit "Search", class: "btn btn-primary posts-search__submit" %>
     <% end %>
-  </div>
-<% end %>
+  </header>
 
-<% if @posts.any? %>
-  <%= render partial: 'posts/post', collection: @posts, cached: ->(post) { [post, user_signed_in? && (current_user == post.user || current_user.admin?)] } %>
-<% else %>
-  <div class="card" style="text-align: center; padding: 5rem 2rem;">
-    <div style="background: var(--bg-color); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
-      <i data-lucide="file-text" style="width: 40px; height: 40px; color: var(--text-muted);"></i>
-    </div>
-    <h2 style="color: var(--text-main); font-weight: 800; margin-bottom: 0.5rem;">No posts found</h2>
-    <p style="color: var(--text-muted); margin-bottom: 2.5rem; max-width: 400px; margin-left: auto; margin-right: auto;">
-      <% if params[:query].present? %>
-        We couldn't find any posts matching your search. Try different keywords or clear the filter.
-      <% else %>
-        The blog is currently empty. Be the first one to share your thoughts with the world!
+  <% if params[:query].present? %>
+    <div class="posts-filter-bar">
+      <i data-lucide="filter" class="posts-filter-bar__icon"></i>
+      <span>Results for <strong>"<%= params[:query] %>"</strong></span>
+      <%= link_to posts_path, class: "posts-filter-bar__clear" do %>
+        <i data-lucide="x-circle"></i> Clear filter
       <% end %>
-    </p>
-    <%= link_to new_post_path, class: "btn btn-primary", style: "display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.8rem 1.5rem;" do %>
-      <i data-lucide="plus-circle" style="width: 1.25rem; height: 1.25rem;"></i> Create First Post
-    <% end %>
-  </div>
-<% end %>
+    </div>
+  <% end %>
 
-<div style="display: flex; justify-content: center; margin-top: 4rem; margin-bottom: 2rem;">
-  <%== pagy_bootstrap_nav(@pagy) if @pagy %>
+  <% if @posts.any? %>
+    <% cache_key = ->(post) { [post, user_signed_in? && (current_user == post.user || current_user.admin?)] } %>
+
+    <% if params[:query].blank? %>
+      <%= render partial: "posts/post", object: @posts.first, locals: { featured: true } %>
+
+      <% if @posts.size > 1 %>
+        <div class="posts-section-label">
+          <span>More articles</span>
+        </div>
+        <div class="posts-grid">
+          <%= render partial: "posts/post", collection: @posts.drop(1), cached: cache_key %>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="posts-grid posts-grid--search">
+        <%= render partial: "posts/post", collection: @posts, cached: cache_key %>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="posts-empty">
+      <div class="posts-empty__icon">
+        <i data-lucide="file-text"></i>
+      </div>
+      <h2 class="posts-empty__title">No posts found</h2>
+      <p class="posts-empty__text">
+        <% if params[:query].present? %>
+          Nothing matched your search. Try different keywords or browse all posts.
+        <% else %>
+          The journal is waiting for its first story. Share something worth reading.
+        <% end %>
+      </p>
+      <%= link_to new_post_path, class: "btn btn-primary posts-empty__cta" do %>
+        <i data-lucide="pen-line"></i> Write the first post
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if @pagy && @pagy.pages > 1 %>
+    <nav class="posts-pagination" aria-label="Posts pagination">
+      <%== pagy_bootstrap_nav(@pagy) %>
+    </nav>
+  <% end %>
 </div>

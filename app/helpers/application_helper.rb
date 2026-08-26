@@ -25,4 +25,11 @@ module ApplicationHelper
       "#{page_title} | #{base_title}"
     end
   end
+
+  def main_container_class
+    return "" if controller_name == "pages" && action_name == "home"
+    return "container container--wide" if controller_name == "posts" && action_name == "index"
+
+    "container"
+  end
 end
