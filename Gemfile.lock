@@ -467,6 +467,7 @@ DEPENDENCIES
   rails (~> 8.0.5)
   redis
   rubocop-rails-omakase
+  ruby-vips
   selenium-webdriver
   sentry-rails
   sentry-ruby

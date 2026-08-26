@@ -76,3 +76,5 @@ gem "sentry-ruby"
 gem "sentry-rails"
 
 gem "stripe", "~> 19.1"
+# For image processing
+gem "ruby-vips"

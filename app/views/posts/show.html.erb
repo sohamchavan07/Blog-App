@@ -18,7 +18,7 @@
       <h1 class="post-title"><%= @post.title %></h1>
       <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
         <% if @post.premium? %>
-          <span class="tag" style="background: #ffd700; color: #000; border-color: #ffd700;">
+          <span class="tag" style="background: #00000; color: #000; border-color: #00000;">
             <i data-lucide="crown" style="width: 1rem; height: 1rem; margin-right: 0.25rem; display: inline-block; vertical-align: middle;"></i>
             Premium
           </span>
@@ -63,13 +63,13 @@
           <%= truncate(@post.plain_text_summary, length: 300) %>
         </div>
         
-        <div class="card text-center" style="margin-top: 2rem; background: var(--bg-color); border: 2px solid #ffd700; padding: 2rem;">
-          <i data-lucide="lock" style="width: 3rem; height: 3rem; margin: 0 auto 1rem; color: #ffd700;"></i>
+        <div class="card text-center" style="margin-top: 2rem; background: var(--bg-color); border: 2px solid #00000; padding: 2rem;">
+          <i data-lucide="lock" style="width: 3rem; height: 3rem; margin: 0 auto 1rem; color: #00000;"></i>
           <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">This is a Premium Post</h2>
           <p style="color: var(--text-muted); margin-bottom: 1.5rem;">
             Join our premium community to get full access to this post and many others.
           </p>
-          <%= link_to "Subscribe Now", new_subscription_path, class: "btn btn-primary", style: "background: #ffd700; border-color: #ffd700; color: #000; font-weight: 700;" %>
+          <%= link_to "Subscribe Now", new_subscription_path, class: "btn btn-primary", style: "background: #00000; border-color: #00000; color: #000; font-weight: 700;" %>
           <% unless user_signed_in? %>
             <p style="margin-top: 1rem; font-size: 0.875rem;">
               Already have an account? <%= link_to "Sign in", new_user_session_path, style: "color: var(--primary-color);" %>

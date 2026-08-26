@@ -53,7 +53,7 @@
         <nav>
           <% if user_signed_in? %>
             <% unless current_user.premium? || current_user.admin? %>
-              <%= link_to "Upgrade", new_subscription_path, class: "btn btn-outline", style: "border-color: #ffd700; color: #b8860b;" %>
+              <%= link_to "Upgrade", new_subscription_path, class: "btn btn-outline", style: "border-color: #00000; color: #00000;" %>
             <% end %>
             <%= link_to "New Post", new_post_path, class: "btn btn-primary" %>
             <%= link_to "Profile", profile_path, class: "btn btn-outline", style: "margin-left: 10px; margin-right: 10px;" %>
@@ -86,17 +86,17 @@
       <% end %>
     </main>
 
-    <script>
-      // Initialize Lucide icons
-      const initLucide = () => {
-        if (window.lucide) {
-          window.lucide.createIcons();
-        }
-      };
+    <%= javascript_tag nonce: true do %>
+        // Initialize Lucide icons
+        const initLucide = () => {
+          if (window.lucide) {
+            window.lucide.createIcons();
+          }
+        };
 
-      document.addEventListener("DOMContentLoaded", initLucide);
-      document.addEventListener("turbo:load", initLucide);
-      document.addEventListener("turbo:render", initLucide);
-    </script>
+        document.addEventListener("DOMContentLoaded", initLucide);
+        document.addEventListener("turbo:load", initLucide);
+        document.addEventListener("turbo:render", initLucide);
+    <% end %>
   </body>
 </html>
