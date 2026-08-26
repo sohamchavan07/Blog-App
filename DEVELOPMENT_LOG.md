@@ -2,6 +2,11 @@
 
 This document tracks the major steps, features, and fixes implemented during the development of the Blog App.
 
+## 2026-08-26: Fix CSS issues with rails:assets precompile
+
+---
+*Last updated: August 26, 2026
+
 ## 2026-05-29: Stripe Subscription Integration
 
 ### 1. Stripe Gem & Configuration
@@ -39,7 +44,7 @@ This document tracks the major steps, features, and fixes implemented during the
 - Added `resources :subscriptions, only: [:new, :create]` with collection routes for `success` and `cancel`.
 
 ---
-*Last updated: May 29, 2026*
+*Last updated: May 29, 2026
 
 ## 2026-04-27: Authentication & API Foundation
 
@@ -89,7 +94,7 @@ This document tracks the major steps, features, and fixes implemented during the
     - Ensuring the `DATABASE_URL` was correctly set in the Render environment settings to connect to the managed PostgreSQL instance.
 
 ---
-*Last updated: May 12, 2026*
+*Last updated: May 12, 2026
 
 ## 2026-05-12: Major Feature Enhancements & UX Overhaul
 
