@@ -95,7 +95,7 @@ A quick workflow:
 
 ## Author
 
-Soham Chavan — Portfolio: https://www.sohamchavan.site/
+Soham Chavan — Portfolio: https://www.sohamchavan.site
 
 ## License
 
