@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :set_post, only: %i[show edit update destroy]
+  before_action :authorize_owner, only: %i[edit update destroy]
 
   def index
     @posts = Post.includes(:user, :tags).with_attached_cover_image.with_rich_text_body.order(created_at: :desc)
@@ -40,7 +41,7 @@ class PostsController < ApplicationController
   end
 
   def edit
-    redirect_to posts_path, alert: "Not authorized" unless can_manage_post?
+    # Authorization handled by before_action :authorize_owner
   end
 
   def create
@@ -54,31 +55,27 @@ class PostsController < ApplicationController
   end
 
   def update
-    if can_manage_post?
-      if @post.update(post_params)
-        ProcessImageJob.perform_later(@post.id) if post_params[:cover_image].present?
-        redirect_to @post, notice: "Post was successfully updated."
-      else
-        render :edit, status: :unprocessable_entity
-      end
+    if @post.update(post_params)
+      ProcessImageJob.perform_later(@post.id) if post_params[:cover_image].present?
+      redirect_to @post, notice: "Post was successfully updated."
     else
-      redirect_to posts_path, alert: "Not authorized"
+      render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
-    if can_manage_post?
-      @post.destroy
-      redirect_to posts_path, notice: "Post was successfully destroyed.", status: :see_other
-    else
-      redirect_to posts_path, alert: "Not authorized"
-    end
+    @post.destroy
+    redirect_to posts_path, notice: "Post was successfully destroyed.", status: :see_other
   end
 
   private
 
   def set_post
     @post = Post.includes(:user, :tags, comments: :user).with_attached_cover_image.with_rich_text_body.friendly.find(params[:id])
+  end
+
+  def authorize_owner
+    redirect_to posts_path, alert: "Not authorized" unless can_manage_post?
   end
 
   def can_manage_post?

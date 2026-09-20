@@ -35,21 +35,6 @@ class User < ApplicationRecord
   end
 
   def premium?
-    status = if respond_to?(:subscription_status)
-      subscription_status
-    elsif has_attribute?(:subscription_status)
-      self[:subscription_status]
-    else
-      nil
-    end
-
-    [ "active", "trialing" ].include?(status.to_s)
-  end
-
-
-  private
-
-  def clear_users_cache
-    Rails.cache.delete("users")
+    %w[active trialing].include?(subscription_status.to_s)
   end
 end

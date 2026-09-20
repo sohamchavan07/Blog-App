@@ -6,4 +6,4 @@ Disallow: /users/
 Disallow: /profiles/edit
 Disallow: /subscriptions/
 
-Sitemap: https://blog.sohamchavan.site/sitemap.xml
+Sitemap: https://blog.sohamcode.online/sitemap.xml

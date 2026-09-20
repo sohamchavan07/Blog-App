@@ -39,9 +39,7 @@ class Post < ApplicationRecord
 
   def summary
     begin
-      # Trigger a load to catch potential database errors early
-      body.to_s
-      body
+      body.to_plain_text.presence || legacy_body.to_s
     rescue StandardError
       legacy_body.to_s
     end
