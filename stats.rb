@@ -5,9 +5,9 @@ def count_code_lines(file_path)
   lines.reject do |line|
     stripped = line.strip
     # Ignore blank lines, Ruby comments (#), and HTML comments (<!--)
-    stripped.empty? || 
-      stripped.start_with?('#') || 
-      stripped.start_with?('//') || 
+    stripped.empty? ||
+      stripped.start_with?('#') ||
+      stripped.start_with?('//') ||
       stripped.start_with?('<!--')
   end.size
 rescue
@@ -17,7 +17,7 @@ end
 def process_directory(dir_pattern)
   files = Dir.glob(dir_pattern)
   counts = files.map { |file| count_code_lines(file) }
-  [files.size, counts]
+  [ files.size, counts ]
 end
 
 def categorize(counts)
